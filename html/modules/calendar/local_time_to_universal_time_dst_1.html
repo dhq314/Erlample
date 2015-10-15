@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="这个函数把本地时间 DateTime1 转为一个世界标准时间（UTC，Universal Coordinated Time ）。DateTime1 必须是一个1970年1月1日之后的本地时间。返回值有以下几种结果：" />
+<meta name="keywords" content="local_time_to_universal_time_dst/1,calendar,calendar:local_time_to_universal_time_dst/1,erlang" />
+
+<title>calendar:local_time_to_universal_time_dst/1 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/calendar/index.html?search=calendar:">calendar</a>
+&nbsp;»&nbsp;
+local_time_to_universal_time_dst/1
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>calendar:local_time_to_universal_time_dst/1</h1>
+<p>把本地时间转换为世界标准时</p>
+<p>用法：</p>
+<pre class="brush:erl">local_time_to_universal_time_dst(DateTime1) -> [DateTime]</pre>
+<p>内部实现：</p>
+<pre class="brush:erl">-spec local_time_to_universal_time_dst(DateTime1) -> [DateTime] when
+      DateTime1 :: datetime1970(),
+      DateTime :: datetime1970().
+local_time_to_universal_time_dst(DateTime) ->
+    UtDst = erlang:localtime_to_universaltime(DateTime, true),
+    Ut    = erlang:localtime_to_universaltime(DateTime, false),
+    %% Reverse check the universal times
+    LtDst = erlang:universaltime_to_localtime(UtDst),
+    Lt    = erlang:universaltime_to_localtime(Ut),
+    %% Return the valid universal times
+    case {LtDst,Lt} of
+	{DateTime,DateTime} when UtDst =/= Ut ->
+	    [UtDst,Ut];
+	{DateTime,_} ->
+	    [UtDst];
+	{_,DateTime} ->
+	    [Ut];
+	{_,_} ->
+	    []
+    end.
+</pre>
+<p>这个函数把本地时间 DateTime1 转为一个世界标准时间（UTC，Universal Coordinated Time ）。DateTime1 必须是一个1970年1月1日之后的本地时间。</p>
+<p>返回值有以下几种结果：</p>
+<ul>
+<li>[]：当切换到夏令时的期间里，本地时间 {Date1, Time1} 会被跳过，因为没有对应的 UTC 时间，本地时间是一个非法的时间（它不会发生）</li>
+<li>[DstDateTimeUTC, DateTimeUTC]：当从夏令时切换的期间里，本地时间 {Date1, Time1} 会重复出现，英文有 2 个对应的 UTC 时间，一个是第一个夏令时仍处于活动状态的时候，另外一个是第一个夏令时仍处于活动状态的时候。</li>
+<li>[DateTimeUTC]：所有的本地时间只有一个对应的 UTC 时间。</li>
+</ul>
+<div class="erlcode">
+<pre class="brush:erl">calendar:local_time_to_universal_time_dst({{2014, 7, 17}, {17, 38, 12}}).
+</pre>
+</div>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>

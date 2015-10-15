@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="把一个应用程序的描述信息加载到 Erlang 应用控制器里。它也会把其他包含应用的描述信息加载进来。这个函数不会加载实际的 Erlang 目标 BEAM 代码。参数 AppDescr 可以是应用的名字，在这种情况下，应用控制器将会搜索代码目录路径下的应用资源文件 Application.app，并把该应用资源文件包含的描述信息加载进来。应用的描述信息可以直接是一个描述应用的元组，这个元组是一个�" />
+<meta name="keywords" content="load/1,application,application:load/1,erlang" />
+
+<title>application:load/1 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/application/index.html?search=application:">application</a>
+&nbsp;»&nbsp;
+load/1
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>application:load/1</h1>
+<p>加载一个应用程序</p>
+<p>用法：</p>
+<pre class="brush:erl">load(AppDescr) -> ok | {error, Reason}</pre>
+<p>把一个应用程序的描述信息加载到 Erlang 应用控制器里。它也会把其他包含应用的描述信息加载进来。这个函数不会加载实际的 Erlang 目标 BEAM 代码。</p>
+<p>参数 AppDescr 可以是应用的名字，在这种情况下，应用控制器将会搜索代码目录路径下的应用资源文件 Application.app，并把该应用资源文件包含的描述信息加载进来。</p>
+<p>应用的描述信息可以直接是一个描述应用的元组，这个元组是一个固定格式和内容的来描述该应用。</p>
+<div class="erlcode">
+<pre class="brush:erl">application:load(crypto).
+</pre>
+</div>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>

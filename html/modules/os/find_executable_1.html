@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="在操作系统的环境变量 Path （可通过 os:getenv("PATH") 获取查看）的所有目录下，对给出的可执行程序名 Name 进行查找并搜索其目录路径，如果找到并且可执行，则返回其绝对目录路径。程序名也可以是一个文件路径。如果给出的程序名不存在，则返回 false。如果给出的程序名不可执行，则返回 false。" />
+<meta name="keywords" content="find_executable/1,os,os:find_executable/1,erlang" />
+
+<title>os:find_executable/1 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/os/index.html?search=os:">os</a>
+&nbsp;»&nbsp;
+find_executable/1
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>os:find_executable/1</h1>
+<p>返回一个可执行程序的绝对路径</p>
+<p>用法：</p>
+<pre class="brush:erl">find_executable(Name) -> Filename | false</pre>
+<p>在操作系统的环境变量 Path （可通过 os:getenv("PATH") 获取查看）的所有目录下，对给出的可执行程序名 Name 进行查找并搜索其目录路径，如果找到并且可执行，则返回其绝对目录路径。</p>
+<div class="erlcode">
+<pre class="brush:erl">os:find_executable(erl).
+</pre>
+</div>
+<div class="erlcode">
+<pre class="brush:erl">os:find_executable(python).
+</pre>
+</div>
+<p>程序名也可以是一个文件路径。</p>
+<div class="erlcode">
+<pre class="brush:erl">os:find_executable("/app/rebar").
+</pre>
+</div>
+<p>如果给出的程序名不存在，则返回 false。</p>
+<div class="erlcode">
+<pre class="brush:erl">os:find_executable("/app/rebar1").
+</pre>
+</div>
+<p>如果给出的程序名不可执行，则返回 false。</p>
+<div class="erlcode">
+<pre class="brush:erl">os:find_executable("/app/README").
+</pre>
+</div>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>

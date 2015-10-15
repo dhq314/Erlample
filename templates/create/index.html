@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+
+{% block description_keywords %}
+<meta name="description" content="{{ WEBNAME }} - Erlang 的模块方法示例" />
+<meta name="keywords" content="{{ WEBNAME }},模块,erlang" />
+{% end %}
+
+
+{% block title %}{{ WEBNAME }}{% end %}
+
+
+{% block content %}
+    <h1 class="erlple_mod_title">{{ WEBNAME }}</h1>
+
+    <div id="erlple_list">
+        <ul>
+            {% for m in ms %}
+                <li><a title="{{ m['describe'] }}" href="{{ WEBURL }}modules/{{ m['name'] }}/index.html?search={{ m['name'] }}:">{{ m['name'] }}</a></li>
+            {% end %}
+        </ul>
+    </div>
+{% end %}

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>{{ escape(handler.settings["title"]) }}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Bootstrap -->
+<link href="{{ static_url('css/bootstrap.css') }}" rel="stylesheet" media="screen" />
+<link href="{{ static_url('admin_erlple.css') }}" rel="stylesheet" media="screen" />
+
+{% block css_header %}{% end %}
+{% block js_header %}{% end %}
+
+</head>
+<body>
+
+<div class="container">
+
+    <div class="navbar navbar-inverse navbar-fixed-top bs-docs-nav">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">{{ escape(handler.settings["title"]) }}</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/">模块（307）</a></li>
+                    <li><a href="/fun/">函数（4066）</a></li>
+                    <li><a id="rand_func" href="#">随机</a></li>
+                    <li><a href="/html/" target="_blank">Public</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        {% block body %}{% end %}
+    </div>
+
+</div>
+
+<script type="text/javascript" src="{{ static_url('jquery.js') }}"></script>
+<script type="text/javascript" src="{{ static_url('js/bootstrap.min.js') }}"></script>
+<script type="text/javascript" src="{{ static_url('erldocs_index.js') }}"></script>
+<script type="text/javascript">
+var Erlple = {
+    rmod_arr: [],
+    mod_arr: []
+};
+
+function count_fun(find) {
+    var arr = count_fun_arr(find);
+    return arr.length;
+}
+
+function count_fun_arr(find) {
+    var arr = [];
+    if (find) {
+        var index_len = index.length;
+        for (var i = 0; i < index_len; i++) {
+            if (index[i][0] == "fun") {
+                var fn = index[i][2].split(":");
+                if (fn[0] == find) {
+                    arr.push(fn[1]);
+                }
+            }
+        }
+    }
+    return arr;
+}
+
+var current_func = 0, total_func = 0;
+$("#mod_list").find("tr").each(function() {
+    var total = $(this).attr("data");
+    var name = $(this).attr("name");
+    var count = count_fun(name);
+    current_func += parseInt(total);
+    total_func += parseInt(count);
+    var cls = total >= count ? "success" : "danger";
+    $(this).addClass(cls);
+    var sid =  name + "_sta";
+    $("#" + sid).html(total + "/" + count);
+});
+$("#current_func").html(current_func);
+$("#total_func").html(total_func);
+
+$("#smn").click(function() {
+    var find = $("#cmn").val();
+    var count = count_fun(find);
+    $("#mns").html(count);
+});
+
+$("#rand_func").click(function() {
+    $.getJSON("http://erlple/mod_action/get_mod_list/", function(data) {
+        var rmod_arr = [], mod_arr = [];
+        if ( Erlple.rmod_arr.length > 0 && Erlple.mod_arr != [] ) {
+            rmod_arr = Erlple.rmod_arr;
+            mod_arr = Erlple.mod_arr;
+        } else {
+            $.each(data, function(mid, arr) {
+                var name = arr['name'];
+                var count = count_fun(name);
+                if (arr['func_num'] < count) {
+                    rmod_arr.push(name);
+                }
+                mod_arr[name] = mid;
+            });
+        }
+        if (rmod_arr.length > 0) {
+            var rand = Math.floor(Math.random() * rmod_arr.length);
+            var mod_name = rmod_arr[rand];
+            if (mod_arr[mod_name]) {
+                var mid = parseInt(mod_arr[mod_name]);
+                $.get("http://erlple/mod_action/get_func_list/" + mid, function(rs) {
+                    var rs_arr = rs.split(",")
+                    var func_arr = count_fun_arr(mod_name);
+                    var diff_arr = array_diff(func_arr, rs_arr);
+                    if (diff_arr.length > 0) {
+                        rand = Math.floor(Math.random() * diff_arr.length);
+                        var func_name = diff_arr[rand];
+                        func_name = func_name.replace("/", "-");
+                        window.location.href = "http://erlple/fun_action2/add/" + mid + "/" + func_name;
+                    }
+                });
+            }
+        }
+    });
+});
+
+function array_diff(A, B) {
+    return A.filter(function (a) {
+        return B.indexOf(a) == -1;
+    });
+}
+
+{% block js_footer %}{% end %}
+
+</script>
+</body>
+</html>

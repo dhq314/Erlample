@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="如果没有进程使用模块 Module 的旧代码，则清除该模块被标记为旧版本的代码。如果有进程在使用该模块的旧代码，则模块旧代码清除失败而返回 false，否则返回 true。其跟 code:purge/1 差不多，都是清除模块被标记为旧版本的代码。不同的是，如果有进程在使用该模块的旧代码，code:purge/1 会先杀死执行进程，再执行清除操作。" />
+<meta name="keywords" content="soft_purge/1,code,code:soft_purge/1,erlang" />
+
+<title>code:soft_purge/1 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/code/index.html?search=code:">code</a>
+&nbsp;»&nbsp;
+soft_purge/1
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>code:soft_purge/1</h1>
+<p>移除一个模块的旧代码</p>
+<p>用法：</p>
+<pre class="brush:erl">soft_purge(Module) -> boolean()</pre>
+<p>如果没有进程使用模块 Module 的旧代码，则清除该模块被标记为旧版本的代码。</p>
+<p>如果有进程在使用该模块的旧代码，则模块旧代码清除失败而返回 false，否则返回 true。</p>
+<div class="erlcode">
+<pre class="brush:erl">{ok, Module} = application:get_application(),
+code:soft_purge(Module).
+</pre>
+</div>
+<p>其跟 <a href="http://erlple/html/modules/code/purge_1.html?search=code:">code:purge/1</a> 差不多，都是清除模块被标记为旧版本的代码。不同的是，如果有进程在使用该模块的旧代码，<a href="http://erlple/html/modules/code/purge_1.html?search=code:">code:purge/1</a> 会先杀死执行进程，再执行清除操作。</p>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>

@@ -1,4 +1,13 @@
-Erlample
-========
+# Erlample（Erlang Example）
 
-a Erlang Example Repository
+An Erlang Example Repository
+
+
+## Launch
+
+    python ./erlple.py
+    
+    
+## Create Erlang Example Doc
+
+	python ./create_erlple.py

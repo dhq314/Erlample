@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="这个函数跟 ets:insert/2 很相似，都是向 ETS 表 Tab 插入数据 ObjectOrObjects，不同的是，在插入数据时有相同的键要被覆盖替换（类型是 set 或 ordered_set 的表），或者要添加的多个对象数据的键已在表里存在（类型是 bag 或 duplicate_bag 的表），该函数则返回false。如果插入的对象数据 ObjectOrObjects 是一个列表，那么在插入数据之前，将检测列表里的每一个键。如果列表里至少有一个键�" />
+<meta name="keywords" content="insert_new/2,ets,ets:insert_new/2,erlang" />
+
+<title>ets:insert_new/2 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/ets/index.html?search=ets:">ets</a>
+&nbsp;»&nbsp;
+insert_new/2
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>ets:insert_new/2</h1>
+<p>向 ETS 表插入新数据</p>
+<p>用法：</p>
+<pre class="brush:erl">insert_new(Tab, ObjectOrObjects) -> boolean()</pre>
+<p>这个函数跟 <a href="http://erlple/html/modules/ets/insert_2.html?search=ets:">ets:insert/2</a> 很相似，都是向 ETS 表 Tab 插入数据 ObjectOrObjects，不同的是，在插入数据时有相同的键要被覆盖替换（类型是 set 或 ordered_set 的表），或者要添加的多个对象数据的键已在表里存在（类型是 bag 或 duplicate_bag 的表），该函数则返回false。</p>
+<p>如果插入的对象数据 ObjectOrObjects 是一个列表，那么在插入数据之前，将检测列表里的每一个键。如果列表里至少有一个键在表中已存在，则不会插入任何对象数据。</p>
+<p>跟 <a href="http://erlple/html/modules/ets/insert_2.html?search=ets:">ets:insert/2</a> 一样，该函数的整个操作都保持它的原子性和独立性。</p>
+<div class="erlcode">
+<pre class="brush:erl">ets:new(test_ets_new, [set, named_table]),
+ets:insert(test_ets_new, [{a, 1}, {b, 2}]),
+ets:insert_new(test_ets_new, [{c, 3}]).
+</pre>
+</div>
+<div class="erlcode">
+<pre class="brush:erl">ets:new(test_ets_new, [set, named_table]),
+ets:insert(test_ets_new, [{a, 1}, {b, 2}]),
+ets:insert_new(test_ets_new, [{a, 3}]).
+</pre>
+</div>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>

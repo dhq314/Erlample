@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+
+{% block description_keywords %}
+<meta name="description" content="{{ WEBNAME }} 的方法列表 - Erlang 的模块方法示例" />
+<meta name="keywords" content="{{ WEBNAME }},方法列表,erlang" />
+{% end %}
+
+
+{% block title %}方法列表 - {{ WEBNAME }}{% end %}
+
+
+{% block content %}
+    <div id="mod_list_div">
+        <div id="mod_list_status">
+            共有 <span id="func_count">0</span> 个方法
+            <div id="func_action">
+                每页显示 <input autocomplete="off" id="func_per_page" current="1" type="text" value="30" /> 条
+                &nbsp;
+                <select id="mod_list_sel">
+                    <option value="">全部</option>
+                </select>
+            </div>
+        </div>
+        <table id="mod_list_tab">
+            <thead>
+                <tr><th>编号</th><th>模块名</th><th>方法名</th><th>描述</th></tr>
+            </thead>
+            <tbody id="func_list_tbody">
+            </tbody>
+        </table>
+        <div id="func_pages">
+
+        </div>
+    </div>
+{% end %}

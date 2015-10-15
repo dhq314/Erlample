@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="返回另一端连接的地址和端口。对于是 SCTP 的套接字连接，这个函数只返回连接端地址中的一个套接字连接，函数 inet:peernames/1 和 inet:peernames/2 会返回所有。" />
+<meta name="keywords" content="peername/1,inet,inet:peername/1,erlang" />
+
+<title>inet:peername/1 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/inet/index.html?search=inet:">inet</a>
+&nbsp;»&nbsp;
+peername/1
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>inet:peername/1</h1>
+<p>返回另一端连接的地址和端口</p>
+<p>用法：</p>
+<pre class="brush:erl">peername(Socket) ->  {ok, {Address, Port}} | {error, posix()}</pre>
+<p>内部实现：</p>
+<pre class="brush:erl">-spec peername(Socket) ->  {ok, {Address, Port}} | {error, posix()} when
+      Socket :: socket(),
+      Address :: ip_address(),
+      Port :: non_neg_integer().
+
+peername(Socket) -> 
+    prim_inet:peername(Socket).
+</pre>
+<p>返回另一端连接的地址和端口。</p>
+<div class="erlcode">
+<pre class="brush:erl">Socket = util:get_socket(),
+case inet:peername(Socket) of
+    {ok, {Ip, Port}} ->
+        {Ip, Port};
+    {error, Reason} ->
+        Reason
+end.
+</pre>
+</div>
+<p>对于是 <a title="串流控制传输协议（Stream Control Transmission Protocol 或简写 SCTP）" href="http://zh.wikipedia.org/wiki/%E6%B5%81%E6%8E%A7%E5%88%B6%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE" target="_blank">SCTP</a> 的套接字连接，这个函数只返回连接端地址中的一个套接字连接，函数 <a href="http://erlple/html/modules/inet/peernames_1.html?search=inet:">inet:peernames/1</a> 和 <a href="http://erlple/html/modules/inet/peernames_2.html?search=inet:">inet:peernames/2</a> 会返回所有。</p>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>

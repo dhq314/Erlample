@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="用一个替换值（Replacement）去替换正则表达式（RE）匹配到的数据，参数 Subject 是要匹配替换的数据，参数 RE 是替换的正则表达式，参数 Replacement 是要替换的值，参数 Options 的用法跟 re:run/3 一样，除了 capture 之外。Erlang 里的字符串（string）替换主要也是用该函数来实现，下面是该方法的一些例子：全局匹配替换，并返回字符串形式的数据：把字符串里的数字去掉：去除字符里" />
+<meta name="keywords" content="replace/4,re,re:replace/4,erlang" />
+
+<title>re:replace/4 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/re/index.html?search=re:">re</a>
+&nbsp;»&nbsp;
+replace/4
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>re:replace/4</h1>
+<p>根据正则表达式来替换数据</p>
+<p>用法：</p>
+<pre class="brush:erl">replace(Subject,RE,Replacement,Options) -> iodata() | charlist() | binary() | list()</pre>
+<p>用一个替换值（Replacement）去替换正则表达式（RE）匹配到的数据，参数 Subject 是要匹配替换的数据，参数 RE 是替换的正则表达式，参数 Replacement 是要替换的值，参数 Options 的用法跟 <a href="http://erlple/html/modules/re/run_3.html?search=re:">re:run/3</a> 一样，除了 capture 之外。</p>
+<p>Erlang 里的字符串（string）替换主要也是用该函数来实现，下面是该方法的一些例子：</p>
+<p>全局匹配替换，并返回字符串形式的数据：</p>
+<div class="erlcode">
+<pre class="brush:erl">re:replace("just a test", "s\\w+", "*", [global, {return, list}]).
+</pre>
+</div>
+<p>把字符串里的数字去掉：</p>
+<div class="erlcode">
+<pre class="brush:erl">re:replace("j1u223s5t a6 t7e8s9t", "[0-9]", "", [global, {return, list}]).
+</pre>
+</div>
+<p>去除字符里的斜杠（"/"）和反斜杠（"\"）等特殊符号：</p>
+<div class="erlcode">
+<pre class="brush:erl">re:replace("He/llo Wo\rld", "\/", "", [global, {return, list}]).
+</pre>
+</div>
+<p>去除字符两边里的非字符等特殊符号：</p>
+<div class="erlcode">
+<pre class="brush:erl">re:replace(" \nabc defg\r \t", "(^\\s+)|(\\s+$)", "", [global, {return, list}]).
+</pre>
+</div>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>

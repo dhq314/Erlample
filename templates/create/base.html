@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+{% block description_keywords %}{% end %}
+
+<title>{% block title %}{% end %}</title>
+
+<link type="text/css" rel="stylesheet" href="{{ WEBURL }}frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="{{ WEBURL }}frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="{{ WEBURL }}frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+
+    <div id="erlple_nav">
+        &nbsp;&nbsp;&nbsp;
+        <a href="http://dhq.me/">dhq.me</a>
+        &nbsp;»&nbsp;
+        <a href="{{ WEBURL }}">{{ WEBNAME }}</a>
+
+        {% block nav %}{% end %}
+
+        <div id="erlple_nav_mf">
+            <a id="casual_look" href="javascript:void(0);">随便看看</a>
+            &nbsp;
+            <a href="{{ WEBURL }}mod_list.html">模块列表</a>
+            &nbsp;
+            <a href="{{ WEBURL }}func_list.html">方法列表</a>
+        </div>
+    </div>
+
+    <div id="main">
+
+        <div id="content">
+            <div id="erlple_content">
+                {% block content %}{% end %}
+            </div>
+        </div>
+
+        <div id="sidebar">
+            <input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+            <ul id="results" class="list-group"></ul>
+        </div>
+
+    </div>
+
+<script type="text/javascript" src="{{ WEBURL }}frontend/shCore.js"></script>
+<script type="text/javascript" src="{{ WEBURL }}frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="{{ WEBURL }}frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "{{ WEBURL }}";
+var ACTURL = "{{ ACTURL }}";
+</script>
+<script type="text/javascript" src="{{ WEBURL }}frontend/jquery.js"></script>
+<script type="text/javascript" src="{{ WEBURL }}frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="{{ WEBURL }}frontend/erldocs.js"></script>
+{% block _js_include_extra %}{% end %}
+</body>
+</html>

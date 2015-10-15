@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+
+{% block description_keywords %}
+<meta name="description" content="{{ WEBNAME }} 的模块列表 - Erlang 的模块方法示例" />
+<meta name="keywords" content="{{ WEBNAME }},模块列表,erlang" />
+{% end %}
+
+
+{% block title %}模块列表 - {{ WEBNAME }}{% end %}
+
+
+{% block content %}
+    <div id="mod_list_div">
+        <div id="mod_list_status">共有 <span id="mod_count">0</span> 个模块</div>
+        <table id="mod_list_tab">
+            <thead>
+                <tr><th>编号</th><th>模块名</th><th>描述</th><th>方法数</th></tr>
+            </thead>
+            <tbody id="mod_list_tbody">
+            </tbody>
+        </table>
+    </div>
+{% end %}

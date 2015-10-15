@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="列表 List1 里的每一个元素以参数的方式被函数 Predicate 调用，如果元素在函数 Predicate 中的执行结果是 true，则丢弃该元素，接着继续调用下一个元素；如果执行的结果是 false，则立刻结束，并返回一个由剩下的元素组成的列表。" />
+<meta name="keywords" content="dropwhile/2,lists,lists:dropwhile/2,erlang" />
+
+<title>lists:dropwhile/2 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/lists/index.html?search=lists:">lists</a>
+&nbsp;»&nbsp;
+dropwhile/2
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>lists:dropwhile/2</h1>
+<p>当断言为真则从列表里丢弃该元素</p>
+<p>用法：</p>
+<pre class="brush:erl">dropwhile(Predicate, List1) -> List2</pre>
+<p>内部实现：</p>
+<pre class="brush:erl">
+-spec dropwhile(Pred, List1) -> List2 when
+      Pred :: fun((Elem :: T) -> boolean()),
+      List1 :: [T],
+      List2 :: [T],
+      T :: term().
+
+dropwhile(Pred, [Hd|Tail]=Rest) ->
+    case Pred(Hd) of
+	true -> dropwhile(Pred, Tail);
+	false -> Rest
+    end;
+dropwhile(Pred, []) when is_function(Pred, 1) -> [].
+</pre>
+<p>列表 List1 里的每一个元素以参数的方式被函数 Predicate 调用，如果元素在函数 Predicate 中的执行结果是 true，则丢弃该元素，接着继续调用下一个元素；如果执行的结果是 false，则立刻结束，并返回一个由剩下的元素组成的列表。</p>
+<div class="erlcode"> 
+<pre class="brush:erl">
+lists:dropwhile(fun(E) -> E =< 0 end, [-3, -2, -1, 0, 1, -1, 2, 3]).
+</pre>
+</div>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>

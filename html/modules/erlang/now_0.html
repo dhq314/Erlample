@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="如果底层操作系统支持的话，返回从 1970-1-1 00:00:00 开始到当前的时间元组 {MegaSecs, Secs, MicroSecs}。否则，将选择别的时间点。由于后续调用这个 BIF 函数返回的是一个连续累加的值，因此，这个函数的返回值可以用来当做唯一确定的时间戳。如果这个函数是在一个高速的机器上频繁调用，那么节点的时间是会有些偏差。如果底层操作系统的 time-zone 预先设置好，该函数可以检测�" />
+<meta name="keywords" content="now/0,erlang,erlang:now/0,erlang" />
+
+<title>erlang:now/0 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/erlang/index.html?search=erlang:">erlang</a>
+&nbsp;»&nbsp;
+now/0
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>erlang:now/0</h1>
+<p>获取从 GMT 零点开始到当前的时间</p>
+<p>用法：</p>
+<pre class="brush:erl">now() -> timestamp()</pre>
+<p>如果底层操作系统支持的话，返回从 1970-1-1 00:00:00 开始到当前的时间元组 {MegaSecs, Secs, MicroSecs}。否则，将选择别的时间点。由于后续调用这个 BIF 函数返回的是一个连续累加的值，因此，这个函数的返回值可以用来当做唯一确定的时间戳。如果这个函数是在一个高速的机器上频繁调用，那么节点的时间是会有些偏差。</p>
+<p>如果底层操作系统的 time-zone 预先设置好，该函数可以检测当前的本地时间。</p>
+<p>如果不必需要返回一个唯一确定、单调累加的值，可以使用 <a href="http://erlple/html/modules/os/timestamp_0.html?search=os:">os:timestamp/0</a> 来避免服务器的一些负荷瓶颈。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:now().
+</pre>
+</div>
+<p>详细的 <a href="http://erlple/html/modules/erlang/now_0.html?search=erlang:">erlang:now/0</a> 跟 <a href="http://erlple/html/modules/os/timestamp_0.html?search=os:">os:timestamp/0</a> 的时间获取优劣，可参看：<a title="Erlang取当前时间的瓶颈以及解决方案" href="http://blog.yufeng.info/archives/2977" target="_blank">Erlang取当前时间的瓶颈以及解决方案</a></p>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>

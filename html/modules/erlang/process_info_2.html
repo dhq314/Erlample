@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="返回进程 Pid 指定的 ItemSpec 的相关信息，如果进程不存在，则返回 undefined.message_queue_len：进程消息队列的当前消息的数量。这是指定项 messages 所返回的消息队列列表的长度值。messages：返回进程还没有处理的消息列表。registered_name：返回进程注册的名。如果进程没有注册名，则返回一个空列表 []。reductions：返回进程执行 reductions 的次数，一般用来衡量进程负载。heap_size：表示" />
+<meta name="keywords" content="process_info/2,erlang,erlang:process_info/2,erlang" />
+
+<title>erlang:process_info/2 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/erlang/index.html?search=erlang:">erlang</a>
+&nbsp;»&nbsp;
+process_info/2
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>erlang:process_info/2</h1>
+<p>获取进程的相关信息</p>
+<p>用法：</p>
+<pre class="brush:erl">process_info(Pid, ItemSpec) -> InfoResult</pre>
+<p>返回进程 Pid 指定的 ItemSpec 的相关信息，如果进程不存在，则返回 undefined.</p>
+<p>message_queue_len：进程消息队列的当前消息的数量。这是指定项 messages 所返回的消息队列列表的长度值。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:process_info(self(), message_queue_len).
+</pre>
+</div>
+<p>messages：返回进程还没有处理的消息列表。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:process_info(self(), messages).
+</pre>
+</div>
+<p>registered_name：返回进程注册的名。如果进程没有注册名，则返回一个空列表 []。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:process_info(self(), registered_name).
+</pre>
+</div>
+<p>reductions：返回进程执行 reductions 的次数，一般用来衡量进程负载。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:process_info(self(), reductions).
+</pre>
+</div>
+<p>heap_size：表示进程内存占用堆区的大小，单位是 words（一般 32 位系统 1 word 是为 4 字节，64 位系统 1 word 是 8 字节，系统具体占用多少字节数可通过 <a href="http://dhq.me/erlample/modules/erlang/system_info_1.html?search=system&amp;amp;i=0">erlang:system_info(wordsize)</a> 查看）。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:process_info(self(), heap_size).
+</pre>
+</div>
+<p>memory：进程占用内存的大小（单位是字节 bytes），这包括被调用的栈、堆和内部的一些结构数据。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:process_info(self(), memory).
+</pre>
+</div>
+<p>priority：获取进程的当前优先级。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:process_info(self(), priority).
+</pre>
+</div>
+<p>current_function：当前进程调用着的函数。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:process_info(self(), current_function).
+</pre>
+</div>
+<p>backtrace：当前进程的一些回溯追踪信息。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:process_info(self(), backtrace).
+</pre>
+</div>
+<p>group_leader：负责IO 进程管理的组管理者。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:process_info(self(), group_leader).
+</pre>
+</div>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>

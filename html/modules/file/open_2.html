@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="根据模式 Mods 来打开一个文件 Filename。以只读的模式打开：以写的模式打开（如果文件不存在，创建一个新文件）：以读写的模式打开：以 append 的模式打开的文件，并在文件末尾进行写操作（如果文件不存在，创建一个新文件）：以 raw、binary 模式打开文件：一些典型的错误标示：可以使用 file:format_error/1 函数来获取以上错误标识的直观错误描述" />
+<meta name="keywords" content="open/2,file,file:open/2,erlang" />
+
+<title>file:open/2 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/file/index.html?search=file:">file</a>
+&nbsp;»&nbsp;
+open/2
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>file:open/2</h1>
+<p>打开一个文件</p>
+<p>用法：</p>
+<pre class="brush:erl">open(Filename, Modes) -> {ok, IoDevice} | {error, Reason}</pre>
+<p>根据模式 Mods 来打开一个文件 Filename。</p>
+<p>以只读的模式打开：</p>
+<div class="erlcode">
+<pre class="brush:erl">{ok, File} = file:open("/app/rebar.config", read).
+</pre>
+</div>
+<p>以写的模式打开（如果文件不存在，创建一个新文件）：</p>
+<div class="erlcode">
+<pre class="brush:erl">{ok, File} = file:open("/app/rebar.config", write).
+</pre>
+</div>
+<p>以读写的模式打开：</p>
+<div class="erlcode">
+<pre class="brush:erl">{ok, File} = file:open("/app/rebar.config", [read, write]).
+</pre>
+</div>
+<p>以 append 的模式打开的文件，并在文件末尾进行写操作（如果文件不存在，创建一个新文件）：</p>
+<div class="erlcode">
+<pre class="brush:erl">{ok, File} = file:open("/app/rebar.config", append).
+</pre>
+</div>
+<p>以 raw、binary 模式打开文件：</p>
+<div class="erlcode">
+<pre class="brush:erl">{ok, File} = file:open("/app/rebar.config", [raw, binary]).
+</pre>
+</div>
+<p>一些典型的错误标示：</p>
+<ul>
+<li>enoent：文件不存在</li>
+<li>eacces：缺少访问文件或在父目录下查找文件的权限</li>
+<li>eisdir：文件不是一个正规合法的文件，它也许是一个目录、一个输入输出或是一个设备</li>
+<li>enotdir：文件名的某个父目录不是一个正常目录，在一些平台（例如 Window），会用 enoent 代替返回</li>
+<li>enospc：设备的硬盘空间不足（如果指定了写操作）</li>
+</ul>
+<p>可以使用 <a href="http://erlple/html/modules/file/format_error_1.html?search=file:">file:format_error/1</a> 函数来获取以上错误标识的直观错误描述</p>
+<div class="erlcode">
+<pre class="brush:erl">file:format_error(enoent).
+</pre>
+</div>
+<div class="erlcode">
+<pre class="brush:erl">file:format_error(eacces).
+</pre>
+</div>
+<div class="erlcode">
+<pre class="brush:erl">file:format_error(eisdir).
+</pre>
+</div>
+<div class="erlcode">
+<pre class="brush:erl">file:format_error(enotdir).
+</pre>
+</div>
+<div class="erlcode">
+<pre class="brush:erl">file:format_error(enospc).
+</pre>
+</div>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>

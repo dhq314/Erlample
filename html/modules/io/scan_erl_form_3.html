@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="跟 io:scan_erl_exprs/3 一样，从指定输入端 Device 读入第 StartLine 行数据，并把它转换为 Erlang 表达式假如有一个名为 test.txt 的文件，其内容如下：那么可以用 io:scan_erl_form/2 读取 test.txt 文件里的第 2 行数据，并把它解析为 Erlang 表达式：" />
+<meta name="keywords" content="scan_erl_form/3,io,io:scan_erl_form/3,erlang" />
+
+<title>io:scan_erl_form/3 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/io/index.html?search=io:">io</a>
+&nbsp;»&nbsp;
+scan_erl_form/3
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>io:scan_erl_form/3</h1>
+<p>读取并转换为 Erlang 表达式</p>
+<p>用法：</p>
+<pre class="brush:erl">scan_erl_form(IoDevice, Prompt, StartLine) -> Result</pre>
+<p>跟 <a title="io:scan_erl_exprs/3" href="http://dhq.me/erlample/modules/io/scan_erl_exprs_3.html?search=io:">io:scan_erl_exprs/3</a> 一样，从指定输入端 Device 读入第 StartLine 行数据，并把它转换为 Erlang 表达式</p>
+<p>假如有一个名为 test.txt 的文件，其内容如下：</p>
+<pre class="brush:erl">{line1, "a", "b", [{key1, val1}]}.
+{line2, "c", "d", [{key2, val2}]}.
+</pre>
+<p>那么可以用 io:scan_erl_form/2 读取 test.txt 文件里的第 2 行数据，并把它解析为 Erlang 表达式：</p>
+<div class="erlcode">
+<pre class="brush:erl">{ok, File} = file:open("test.txt", read), 
+io:scan_erl_form(File, "", 2).
+</pre>
+</div>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>

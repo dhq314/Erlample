@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="返回当前系统指定类型 Type 的相关信息。常用的信息有：alloc_util_allocators：获取一个使用 ERTS（Erlang 运行时系统） 内部 alloc_util（分配工具）框架的所有分配器名字的原子列表。info：获取经过格式化后的 Erlang 崩溃时的各种系统信息。otp_release：返回一个当前 OTP 发行数字的字符串。process_count：返回本地节点当前存在的进程数，返回的结果跟 length(processes()) 一样。process_limit：�" />
+<meta name="keywords" content="system_info/1,erlang,erlang:system_info/1,erlang" />
+
+<title>erlang:system_info/1 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/erlang/index.html?search=erlang:">erlang</a>
+&nbsp;»&nbsp;
+system_info/1
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>erlang:system_info/1</h1>
+<p>返回系统的相关信息</p>
+<p>用法：</p>
+<pre class="brush:erl">system_info(Type) -> Res</pre>
+<p>返回当前系统指定类型 Type 的相关信息。常用的信息有：</p>
+<p>alloc_util_allocators：获取一个使用 ERTS（Erlang 运行时系统） 内部 alloc_util（分配工具）框架的所有分配器名字的原子列表。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:system_info(alloc_util_allocators).
+</pre>
+</div>
+<p>info：获取经过格式化后的 Erlang 崩溃时的各种系统信息。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:system_info(info).
+</pre>
+</div>
+<p>otp_release：返回一个当前 OTP 发行数字的字符串。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:system_info(otp_release).
+</pre>
+</div>
+<p>process_count：返回本地节点当前存在的进程数，返回的结果跟 length(processes()) 一样。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:system_info(process_count).
+</pre>
+</div>
+<p>process_limit：返回本地节点当前最大可存在的进程数，这个限制数可以在启动 Erlang 虚拟机的时候由参数标识 +P 设置。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:system_info(process_limit).
+</pre>
+</div>
+<p>thread_pool_size：返回用于异步驱动调用的异步线程池的异步线程数量。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:system_info(thread_pool_size).
+</pre>
+</div>
+<p>wordsize：当前系统 1 word 代表的字节数。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:system_info(wordsize).
+</pre>
+</div>
+<p>system_version：返回当前 Erlang 系统的版本信息。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:system_info(system_version).
+</pre>
+</div>
+<p>os_type：返回当前操作系统的系统家族和系统名称。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:system_info(os_type).
+</pre>
+</div>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>

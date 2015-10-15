@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="这个函数是从一个被动模式的套接字接受一个数据包。如果返回一个 {error, closed} 的返回值，那表明 Socket 已经关闭。当 Socket 是 raw 模式下，参数 Length 才有意义的，并且 Length 表示接收字节的大小。如果 Length = 0，所有有效的字节数据都会被接收。如果 Length > 0，则只会接收 Length 长度的字节，或发生错误；当另一端 Socket 关闭时，接收的数据长度可能会小于 Length。" />
+<meta name="keywords" content="recv/2,gen_tcp,gen_tcp:recv/2,erlang" />
+
+<title>gen_tcp:recv/2 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/gen_tcp/index.html?search=gen_tcp:">gen_tcp</a>
+&nbsp;»&nbsp;
+recv/2
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>gen_tcp:recv/2</h1>
+<p>从一个被动模式的套接字接受一个数据包</p>
+<p>用法：</p>
+<pre class="brush:erl">recv(Socket, Length) -> {ok, Packet} | {error, Reason}</pre>
+<p>这个函数是从一个被动模式的套接字接受一个数据包。如果返回一个 {error, closed} 的返回值，那表明 Socket 已经关闭。</p>
+<p>当 Socket 是 raw 模式下，参数 Length 才有意义的，并且 Length 表示接收字节的大小。如果 Length = 0，所有有效的字节数据都会被接收。如果 Length > 0，则只会接收 Length 长度的字节，或发生错误；当另一端 Socket 关闭时，接收的数据长度可能会小于 Length。</p>
+<div class="erlcode">
+<pre class="brush:erl">{Rand, _RandSeed} = random:uniform_s(9999, erlang:now()),
+Port = 40000 + Rand,
+case gen_tcp:listen(Port, [binary, {packet, 0}, {active, false}]) of
+    {ok, ListenSocket} ->
+        case gen_tcp:accept(ListenSocket) of
+            {ok, Socket} ->
+                gen_tcp:recv(Socket, 0);
+            {error, SocketAcceptFail} ->
+                SocketAcceptFail
+        end;
+    _ ->
+        socket_listen_fail
+end.
+</pre>
+</div>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>

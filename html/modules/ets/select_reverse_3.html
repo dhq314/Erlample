@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="跟 ets:select/3 一样，都是根据匹配规范匹配表里的对象数据，不过如果是 ordered_set 类型的 ETS 表的话，遍历会在 Erlang 数据的最后一笔对象数据开始，并会把它移到第一个位置。其他类型的表返回的值跟 ets:select/3 一样。该函数并不是倒转调用函数 ets:select/3 所返回的结果列表，因为结果列表并不仅仅是倒转，同时也包含着表里最后 Limit 条的匹配数据。" />
+<meta name="keywords" content="select_reverse/3,ets,ets:select_reverse/3,erlang" />
+
+<title>ets:select_reverse/3 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/ets/index.html?search=ets:">ets</a>
+&nbsp;»&nbsp;
+select_reverse/3
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>ets:select_reverse/3</h1>
+<p>根据匹配规范匹配表里的对象数据</p>
+<p>用法：</p>
+<pre class="brush:erl">select_reverse(Tab, MatchSpec, Limit) -> {[Match],Continuation} | `$end_of_table`</pre>
+<p>跟 <a href="http://erlple/html/modules/ets/select_3.html?search=ets:">ets:select/3</a> 一样，都是根据匹配规范匹配表里的对象数据，不过如果是 ordered_set 类型的 ETS 表的话，遍历会在 Erlang 数据的最后一笔对象数据开始，并会把它移到第一个位置。其他类型的表返回的值跟 <a href="http://erlple/html/modules/ets/select_3.html?search=ets:">ets:select/3</a> 一样。</p>
+<div class="erlcode">
+<pre class="brush:erl">T = ets:new(x, [ordered_set]),
+[ ets:insert(T, {N}) || N <- lists:seq(1, 10) ],
+{Match, _Continuation} = ets:select_reverse(T, [{'_', [], ['$_']}], 4),
+Match.
+</pre>
+</div>
+<p>该函数并不是倒转调用函数 <a href="http://erlple/html/modules/ets/select_3.html?search=ets:">ets:select/3</a> 所返回的结果列表，因为结果列表并不仅仅是倒转，同时也包含着表里最后 Limit 条的匹配数据。</p>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>

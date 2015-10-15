@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="把特定的属性扩展到对应的属性集合（或其他 Erlang 项）。参数 Expansions 里的每一个元组对 {Property, Expansion}，如果 E 是列表里有相同键 Property 的第一个条目，且 E 和 Property 拥有同等的标准数据形式，那么 E 被 Expansion 替换，且接下来拥有相同键的调用将从列表里被删除。下面的调用不会扩展，因为 {foo, false} 不等于 {foo, true}。Note：扩展后，如果在返回的结果里还保留着原始的�" />
+<meta name="keywords" content="expand/2,proplists,proplists:expand/2,erlang" />
+
+<title>proplists:expand/2 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/proplists/index.html?search=proplists:">proplists</a>
+&nbsp;»&nbsp;
+expand/2
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>proplists:expand/2</h1>
+<p>把特定的属性扩展到对应的属性集合</p>
+<p>用法：</p>
+<pre class="brush:erl">expand(Expansions, ListIn) -> ListOut</pre>
+<p>把特定的属性扩展到对应的属性集合（或其他 Erlang 项）。参数 Expansions 里的每一个元组对 {Property, Expansion}，如果 E 是列表里有相同键 Property 的第一个条目，且 E 和 Property 拥有同等的标准数据形式，那么 E 被 Expansion 替换，且接下来拥有相同键的调用将从列表里被删除。</p>
+<div class="erlcode">
+<pre class="brush:erl">proplists:expand([{foo, [bar, baz]}], [fie, foo, fum]).
+</pre>
+</div>
+<div class="erlcode">
+<pre class="brush:erl">proplists:expand([{{foo, true}, [bar, baz]}], [fie, foo, fum]).
+</pre>
+</div>
+<div class="erlcode">
+<pre class="brush:erl">proplists:expand([{{foo, false}, [bar, baz]}], [fie, {foo, false}, fum]).
+</pre>
+</div>
+<p>下面的调用不会扩展，因为 {foo, false} 不等于 {foo, true}。</p>
+<div class="erlcode">
+<pre class="brush:erl">proplists:expand([{{foo, true}, [bar, baz]}], [{foo, false}, fie, foo, fum]).
+</pre>
+</div>
+<p>Note：扩展后，如果在返回的结果里还保留着原始的属性项，那么肯定是 expansion 列表里包含有。被插入的项值不是递归扩展。如果 Expansions 里含有多个相同键的属性，那么只有第一个会被使用。</p>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>

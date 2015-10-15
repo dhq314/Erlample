@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="启动应用程序 Application。如果应用程序没有加载，应用程序控制器首先会使用 application:load/1 函数把它加载。它将会确定所有要包含的应用程序都加载进来。但是不会启动它们。确保应用程序 Application 的代码能够得到保护。应用程序控制器将会检测应用描述里的键 applications 的值，来确保应用程序运行之前其他所有要包含进来的应用程序都已经启动好了。如果没，将返回 {error,{" />
+<meta name="keywords" content="start/2,application,application:start/2,erlang" />
+
+<title>application:start/2 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/application/index.html?search=application:">application</a>
+&nbsp;»&nbsp;
+start/2
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>application:start/2</h1>
+<p>启动一个应用程序</p>
+<p>用法：</p>
+<pre class="brush:erl">start(Application, Type) -> ok | {error, Reason}</pre>
+<p>启动应用程序 Application。如果应用程序没有加载，应用程序控制器首先会使用 application:load/1 函数把它加载。它将会确定所有要包含的应用程序都加载进来。但是不会启动它们。确保应用程序 Application 的代码能够得到保护。</p>
+<p>应用程序控制器将会检测应用描述里的键 applications 的值，来确保应用程序运行之前其他所有要包含进来的应用程序都已经启动好了。如果没，将返回 {error,{not_started,App}}，App 是缺少没有启动的应用程序。</p>
+<p>应用控制器会为应用程序 Application 生成一个主应用程序。那个主应用程序来管理应用程序 Application 里的所有进程。主应用程序通过调用定义在应用描述文件键 mod 里的回调函数 Module:start/2 来启动。</p>
+<p>参数 Type 指定应用程序的类型，如果忽略，它的默认值则是 temporary。</p>
+<p>如果一个类型是 permanent 的应用程序崩溃，那么它的所有关联应用和整个 Erlang 节点都将关停；如果一个类型是 transient 的应用程序以 normal 原因崩溃，那么它只报告崩溃信息，并不会关停其他跟它关联的应用。如果一个类型是 transient 的应用程序不是以 normal 原因崩溃，那么它的所有关联应用和整个 Erlang 节点都将关停。如果一个类型是 temporary 的应用程序崩溃，它只报告崩溃信息，并不关停其他关联的应用程序。</p>
+<p>NOTE：调用 application:stop/1 函数总可以关停一个应用程序，不管它是什么类型的应用程序，不过其他应用程序不会受到影响。</p>
+<p>NOTE：类型是 transient 的应用程序很少用到，因为当一个监控树崩溃时，它崩溃原因是 shutdown，而不是 normal。</p>
+<div class="erlcode">
+<pre class="brush:erl">application:start(genfsm, temporary).
+</pre>
+</div>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>

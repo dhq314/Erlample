@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="用法跟 ets:select/2 相似，但只返回限定数量（Limit）的匹配对象数据。Continuation 项可在后续的 ets:select/1 调用中获取下一组的匹配对象数据。在操作表中对象数据时，这是一种很有效的操作方式，并且比通过调用 ets:first/1 和 ets:next/1 逐个访问对象还要快。如果表为空，则返回 '$end_of_table'。" />
+<meta name="keywords" content="select/3,ets,ets:select/3,erlang" />
+
+<title>ets:select/3 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/ets/index.html?search=ets:">ets</a>
+&nbsp;»&nbsp;
+select/3
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>ets:select/3</h1>
+<p>对 ETS 表里的数据进行匹配比对</p>
+<p>用法：</p>
+<pre class="brush:erl">select(Tab, MatchSpec, Limit) -> {[Match],Continuation} | `$end_of_table`</pre>
+<p>用法跟 <a href="http://erlple/html/modules/ets/select_2.html?search=ets:">ets:select/2</a> 相似，但只返回限定数量（Limit）的匹配对象数据。Continuation 项可在后续的 <a href="http://erlple/html/modules/ets/select_1.html?search=ets:">ets:select/1</a> 调用中获取下一组的匹配对象数据。在操作表中对象数据时，这是一种很有效的操作方式，并且比通过调用 <a href="http://erlple/html/modules/ets/first_1.html?search=ets:">ets:first/1</a> 和 <a href="http://erlple/html/modules/ets/next_1.html?search=ets:">ets:next/1</a> 逐个访问对象还要快。</p>
+<p>如果表为空，则返回 '$end_of_table'。</p>
+<div class="erlcode">
+<pre class="brush:erl">Tab = ets:new(test_ets_new, [private]),
+ets:insert(Tab, [{a, 1}, {b, 2}]),
+ets:select(Tab, [{{'$1', '$2'}, [], ['$$']}], 1).
+</pre>
+</div>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>

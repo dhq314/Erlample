@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="把一个已打开的 ETS 表 Tab 里的对象数据插入到一个已创建或已打开的磁盘 ETS（Disk Erlang Term Storage）表 Dets。表 Dets 里的数据在对象数据插入前会被清空。" />
+<meta name="keywords" content="to_dets/2,ets,ets:to_dets/2,erlang" />
+
+<title>ets:to_dets/2 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/ets/index.html?search=ets:">ets</a>
+&nbsp;»&nbsp;
+to_dets/2
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>ets:to_dets/2</h1>
+<p>把内存里的 ETS 数据插入到磁盘上保存</p>
+<p>用法：</p>
+<pre class="brush:erl">to_dets(Tab, DetsTab) -> DetsTab</pre>
+<p>内部实现：</p>
+<pre class="brush:erl">-spec to_dets(Tab, DetsTab) -> DetsTab when
+      Tab :: tab(),
+      DetsTab :: dets:tab_name().
+
+to_dets(EtsTable, DetsTable) ->
+    case (catch dets:from_ets(DetsTable, EtsTable)) of
+	{error, Reason} ->
+	    erlang:error(Reason, [EtsTable,DetsTable]);
+	{'EXIT', {Reason1, _Stack1}} ->
+	    erlang:error(Reason1,[EtsTable,DetsTable]);
+	{'EXIT', EReason} ->
+	    erlang:error(EReason,[EtsTable,DetsTable]);
+	ok ->
+	    DetsTable;
+	Unexpected -> %% Dets bug?
+	    erlang:error(Unexpected,[EtsTable,DetsTable])
+    end.
+</pre>
+<p>把一个已打开的 ETS 表 Tab 里的对象数据插入到一个已创建或已打开的磁盘 ETS（Disk Erlang Term Storage）表 Dets。表 Dets 里的数据在对象数据插入前会被清空。</p>
+<div class="erlcode">
+<pre class="brush:erl">Tab = test_ets_to_dets,
+Ets = ets:new(Tab, [{keypos, 1}, ordered_set]),
+[ ets:insert(Ets, {N}) || N <- lists:seq(1, 10) ],
+{ok, Tab} = dets:open_file(Tab, [{file, atom_to_list(Tab) ++ ".data"}]),
+Tab = ets:to_dets(Ets, Tab),
+dets:close(Tab).
+</pre>
+</div>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>

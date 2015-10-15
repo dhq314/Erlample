@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="返回一个浮点数的指定小数点位数格式的文本形式。如果指定 decimals 参数，那么返回值的小数点后的位数将包含最多 Decimals 位值的数字的数。如位值大于内部 256 个字节的静态缓冲区的容量，函数将抛出一个异常。如果指定 compact 参数，那么文本后面的末尾 0 字符会被截除（这个选项同时跟 decimals 参数一起用才有意义）。如果指定 scientific 参数，那么浮点数将使用科学计数法" />
+<meta name="keywords" content="float_to_list/2,erlang,erlang:float_to_list/2,erlang" />
+
+<title>erlang:float_to_list/2 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/erlang/index.html?search=erlang:">erlang</a>
+&nbsp;»&nbsp;
+float_to_list/2
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>erlang:float_to_list/2</h1>
+<p>返回一个浮点数的文本形式</p>
+<p>用法：</p>
+<pre class="brush:erl">float_to_list(Float, Options) -> string()</pre>
+<p>返回一个浮点数的指定小数点位数格式的文本形式。</p>
+<p>如果指定 decimals 参数，那么返回值的小数点后的位数将包含最多 Decimals 位值的数字的数。如位值大于内部 256 个字节的静态缓冲区的容量，函数将抛出一个异常。</p>
+<div class="erlcode">
+<pre class="brush:erl">Pi = math:pi(),
+float_to_list(Pi, [{decimals, 4}]).
+</pre>
+</div>
+<p>如果指定 compact 参数，那么文本后面的末尾 0 字符会被截除（这个选项同时跟 decimals 参数一起用才有意义）。</p>
+<div class="erlcode">
+<pre class="brush:erl">float_to_binary(3.140000, [{decimals, 4}, compact]).
+</pre>
+</div>
+<p>如果指定 scientific 参数，那么浮点数将使用科学计数法来格式小数点后的数字的精度。</p>
+<div class="erlcode">
+<pre class="brush:erl">Pi = math:pi(),
+erlang:float_to_binary(Pi, [{scientific, 20}]).
+</pre>
+</div>
+<p>如果参数 Options 为 []，那么其效用跟 <a href="http://erlple/html/modules/erlang/float_to_list_1.html?search=erlang:">erlang:float_to_list/1</a> 一样。</p>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>

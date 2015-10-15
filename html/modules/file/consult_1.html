@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="从文件 Filename 里读取由 '.' 分割的 Erlang 项。返回的结果有：文件的编码可以用下面的注释形式来设置：" />
+<meta name="keywords" content="consult/1,file,file:consult/1,erlang" />
+
+<title>file:consult/1 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/file/index.html?search=file:">file</a>
+&nbsp;»&nbsp;
+consult/1
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>file:consult/1</h1>
+<p>把文件里的 Erlang 项值读出来</p>
+<p>用法：</p>
+<pre class="brush:erl">consult(Filename) -> {ok, Terms} | {error, Reason}</pre>
+<p>从文件 Filename 里读取由 '.' 分割的 Erlang 项。返回的结果有：</p>
+<ul>
+<li>{ok, Terms}：成功读取文件里的 Erlang 项。</li>
+<li>{error, atom()}：打开或读取文件的时候发生了一个错误。详细的错误码可查看 <a href="http://erlple/html/modules/file/open_2.html?search=file:">file:open/2</a> 里的介绍。</li>
+<li>{error, {Line, Mod, Term}}：解析文件里的 Erlang 项时发生了一个错误。可以使用 <a href="http://erlple/html/modules/file/format_error_1.html?search=file:">file:format_error/1</a> 把这个三元素元组（hree-element tuple）的错误标示转为一种更直观的描述。</li>
+</ul>
+<div class="erlcode">
+<pre class="brush:erl">file:consult("/app/rebar.config").
+</pre>
+</div>
+<p>文件的编码可以用下面的注释形式来设置：</p>
+<pre class="brush:erl">%% coding: utf-8
+</pre>
+<pre class="brush:erl">%% For this file we have chosen encoding = Latin-1
+</pre>
+<pre class="brush:erl">%% -*- coding: latin-1 -*-
+</pre>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>

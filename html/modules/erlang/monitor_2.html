@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="对被调用的进程开启一个监控过程，参数 Type 是被监控对象 Item 的类型。当前只有进程可以被监视，Type 的取值只允许是 process，但其他类型也许以后会被允许。Item 可以是：如果被监控的对象 Item 死亡，或者是不存在，或者是对象 Item 所在的节点失去了连接，那么一个 'DOWN' 的信息将会发送到被监控的进程上。一个 'DOWN' 消息的格式如下：{'DOWN', MonitorRef, Type, Object, Info}MonitorRef �" />
+<meta name="keywords" content="monitor/2,erlang,erlang:monitor/2,erlang" />
+
+<title>erlang:monitor/2 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/erlang/index.html?search=erlang:">erlang</a>
+&nbsp;»&nbsp;
+monitor/2
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>erlang:monitor/2</h1>
+<p>开启一个监控过程</p>
+<p>用法：</p>
+<pre class="brush:erl">monitor(Type, Item) -> MonitorRef</pre>
+<p>对被调用的进程开启一个监控过程，参数 Type 是被监控对象 Item 的类型。</p>
+<p>当前只有进程可以被监视，Type 的取值只允许是 process，但其他类型也许以后会被允许。</p>
+<p>Item 可以是：</p>
+<ul>
+<li>pid()：一个进程标识符是 pid 的进程被监控</li>
+<li>{RegName, Node}：用元组包含着一个进程的注册名和一个节点名。驻留在节点 Node 的注册名为 RegName 的进程将被监控</li>
+<li>RegName：本地节点上注册名为 RegName 的进程将被注册</li>
+</ul>
+<p>如果被监控的对象 Item 死亡，或者是不存在，或者是对象 Item 所在的节点失去了连接，那么一个 'DOWN' 的信息将会发送到被监控的进程上。一个 'DOWN' 消息的格式如下：</p>
+<p>{'DOWN', MonitorRef, Type, Object, Info}</p>
+<p>MonitorRef 是该监控过程的一个引用，Type 是指上面所说的对象类型，</p>
+<p>Object 是监控对象的一个引用。如果 Item 指定为 pid，那么 Object 是被监控进程的 pid。如果 Item 指定为 {RegName, Node}，那么 Object 则是 {RegName, Node}。如果 Item 指定为 RegName，那么 Object 则是 {RegName, Node}（这里的 Node 是指本地节点 node()）。</p>
+<p>当接收到一条 'DOWN' 消息，或调用了 <a href="http://erlple/html/modules/erlang/demonitor_1.html?search=erlang:">erlang:demonitor/1</a> 函数，监控过程将被停止。</p>
+<p>可以对同一个对象 Item 开启多个监控过程，他们只负责各自的监控事务，并不会报错。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:monitor(process, self()).
+</pre>
+</div>
+<div class="erlcode">
+<pre class="brush:erl">spawn(fun()->
+    erlang:monitor(process,Proc),
+    receive
+        {'DOWN', Ref, process, Pid,  normal} -> 
+            io:format("~p said that ~p died by natural causes~n",[Ref,Pid]);
+        {'DOWN', Ref, process, Pid,  Reason} ->
+            io:format("~p said that ~p died by unnatural causes~n~p",[Ref,Pid,Reason])
+    end        
+end).
+</pre>
+</div>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>

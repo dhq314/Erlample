@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="基于一个断言 Pred 把一个列表分成 List1 和 List1 这两个列表，List1 里的元素是由在 Pred 函数调用返回 true 的组成，List2 则是直到断言判断遇到一个 false，List 剩下的元素" />
+<meta name="keywords" content="splitwith/2,lists,lists:splitwith/2,erlang" />
+
+<title>lists:splitwith/2 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/lists/index.html?search=lists:">lists</a>
+&nbsp;»&nbsp;
+splitwith/2
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>lists:splitwith/2</h1>
+<p>基于一个断言把一个列表分成两个列表</p>
+<p>用法：</p>
+<pre class="brush:erl">splitwith(Pred, List) -> {List1, List2}</pre>
+<p>内部实现：</p>
+<pre class="brush:erl">-spec splitwith(Pred, List) -> {List1, List2} when
+      Pred :: fun((T) -> boolean()),
+      List :: [T],
+      List1 :: [T],
+      List2 :: [T],
+      T :: term().
+
+splitwith(Pred, List) when is_function(Pred, 1) ->
+    splitwith(Pred, List, []).
+
+splitwith(Pred, [Hd|Tail], Taken) ->
+    case Pred(Hd) of
+	true -> splitwith(Pred, Tail, [Hd|Taken]);
+	false -> {reverse(Taken), [Hd|Tail]}
+    end;
+splitwith(Pred, [], Taken) when is_function(Pred, 1) ->
+    {reverse(Taken),[]}.
+</pre>
+<p>基于一个断言 Pred 把一个列表分成 List1 和 List1 这两个列表，List1 里的元素是由在 Pred 函数调用返回 true 的组成，List2 则是直到断言判断遇到一个 false，List 剩下的元素</p>
+<div class="erlcode">
+<pre class="brush:erl">lists:splitwith(fun(E) -> E < 3 end, [1, 2, 3, 4, 5]).
+</pre>
+</div>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>

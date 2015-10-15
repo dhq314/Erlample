@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="根据给出的选项创建一个新的数组。默认，数组是可扩展，并初始的大小是 0。数组的索引值开始是 0。参数 Options 是一个单一的项或一个项列表，有一下选值：数据的选项以它们出现在列表里的顺序处理，即最后的选项具有更高的优先权。默认值经常作为未初始的条目的值，并且一旦数组创建它们不能被改变。创建一个大小为 100 的固定大小数组。创建一个空的、可扩展、默�" />
+<meta name="keywords" content="new/1,array,array:new/1,erlang" />
+
+<title>array:new/1 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/array/index.html?search=array:">array</a>
+&nbsp;»&nbsp;
+new/1
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>array:new/1</h1>
+<p>根据给出的选项创建一个新的数组</p>
+<p>用法：</p>
+<pre class="brush:erl">new(Options :: array_opts()) -> array()</pre>
+<p>根据给出的选项创建一个新的数组。默认，数组是可扩展，并初始的大小是 0。数组的索引值开始是 0。</p>
+<p>参数 Options 是一个单一的项或一个项列表，有一下选值：</p>
+<ul>
+<li>N or {size, N}：N 是大于等于 0 的整数；表示初始数组的大小；跟 {fixed, true} 的作用一样。如果 N 不是一个非负的整数，该函数将以 badarg 的原因调用失败。</li>
+<li>fixed or {fixed, true}：创建一个固定大小的数组。</li>
+<li>{fixed, false}：创建一个可扩展的数组。</li>
+<li>{default, Value}：把数组的默认值设置为 Value。</li>
+</ul>
+<p>数据的选项以它们出现在列表里的顺序处理，即最后的选项具有更高的优先权。</p>
+<p>默认值经常作为未初始的条目的值，并且一旦数组创建它们不能被改变。</p>
+<p>创建一个大小为 100 的固定大小数组。</p>
+<div class="erlcode">
+<pre class="brush:erl">array:new(100).
+</pre>
+</div>
+<p>创建一个空的、可扩展、默认值为 0 的数组。</p>
+<div class="erlcode">
+<pre class="brush:erl">array:new({default, 0}).
+</pre>
+</div>
+<p>创建一个可扩展，初始大小是 10，且默认值为 -1 的数组。</p>
+<div class="erlcode">
+<pre class="brush:erl">array:new([{size, 10}, {fixed, false}, {default, -1}]).
+</pre>
+</div>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>

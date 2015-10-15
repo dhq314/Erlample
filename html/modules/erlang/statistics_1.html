@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="返回跟指定类型 Type 相关的系统信息context_switches：返回 {ContextSwitches, 0}，参数 ContextSwitches 指的是系统启动到当前上下文切换的总数。exact_reductions：返回 {Total_Exact_Reductions, Exact_Reductions_Since_Last_Call}。garbage_collection：返回 {Number_of_GCs, Words_Reclaimed, 0}。io：返回 {{input, Input}, {output, Output}}，Input 是指端口接收到的总的字节数，Output 是指端口输出的总的字节数。reductions：返回 {Total_" />
+<meta name="keywords" content="statistics/1,erlang,erlang:statistics/1,erlang" />
+
+<title>erlang:statistics/1 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/erlang/index.html?search=erlang:">erlang</a>
+&nbsp;»&nbsp;
+statistics/1
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>erlang:statistics/1</h1>
+<p>返回系统信息</p>
+<p>用法：</p>
+<pre class="brush:erl">statistics(Type) -> Res</pre>
+<p>返回跟指定类型 Type 相关的系统信息</p>
+<p>context_switches：返回 {ContextSwitches, 0}，参数 ContextSwitches 指的是系统启动到当前上下文切换的总数。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:statistics(context_switches).
+</pre>
+</div>
+<p>exact_reductions：返回 {Total_Exact_Reductions, Exact_Reductions_Since_Last_Call}。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:statistics(exact_reductions).
+</pre>
+</div>
+<p>garbage_collection：返回 {Number_of_GCs, Words_Reclaimed, 0}。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:statistics(garbage_collection).
+</pre>
+</div>
+<p>io：返回 {{input, Input}, {output, Output}}，Input 是指端口接收到的总的字节数，Output 是指端口输出的总的字节数。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:statistics(io).
+</pre>
+</div>
+<p>reductions：返回 {Total_Reductions, Reductions_Since_Last_Call}。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:statistics(reductions).
+</pre>
+</div>
+<p>run_queue：返回执行队列的长度，就是准备运行的进程数量。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:statistics(run_queue).
+</pre>
+</div>
+<p>runtime：返回 {Total_Run_Time, Time_Since_Last_Call} 的格式数据，Total_Run_Time 是指总的 CPU 执行时间，Time_Since_Last_Call 是指从上次调用以来代码执行消耗 CPU 的时间。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:statistics(runtime).
+</pre>
+</div>
+<p>wall_clock：返回 {Total_Wallclock_Time, Wallclock_Time_Since_Last_Call} 的格式数据，Total_Wallclock_Time 是指代码总的运行时间，Wallclock_Time_Since_Last_Call 是指从上次调用以来代码的执行时间。</p>
+<div class="erlcode">
+<pre class="brush:erl">erlang:statistics(wall_clock).
+</pre>
+</div>
+<p>利用 wall_clock 获取当前程序总的运行时间：</p>
+<div class="erlcode">
+<pre class="brush:erl">{Total_Wallclock_Time, _Wallclock_Time_Since_Last_Call} = erlang:statistics(wall_clock),
+{D, {H, M, S}} = calendar:seconds_to_daystime(Total_Wallclock_Time div 1000),
+lists:flatten(io_lib:format("~p days, ~p hours, ~p minutes and ~p seconds", [D, H, M, S])).
+</pre>
+</div>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>

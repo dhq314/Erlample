@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+
+{% block description_keywords %}
+<meta name="description" content="{{ m['name'] }} - {{ m['describe'] }}" />
+<meta name="keywords" content="{{ m['name'] }},模块,erlang" />
+{% end %}
+
+
+{% block title %}{{ m['name'] }} - {{ WEBNAME }}{% end %}
+
+
+{% block nav %}
+&nbsp;»&nbsp;
+{{ m['name'] }}
+{% end %}
+
+
+{% block content %}
+
+    <h1 class="erlple_mod_title">{{ m['name'] }} - {{ m['describe'] }}</h1>
+
+    {% if m['html'] %}
+        <div class="erlple_mod_html">{{ m['html'] }}</div>
+    {% end %}
+
+    <div id="erlple_list">
+        <ul>
+            {% for f in fs %}
+                <li><a title="{{ f['describe'] }}" href="{{ WEBURL }}modules/{{ m['name'] }}/{{ f['fname'] }}.html?search={{ m['name'] }}:">{{ f['name'] }}</a></li>
+            {% end %}
+        </ul>
+    </div>
+
+{% end %}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="MobileOptimized" content="320" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+<meta name="description" content="查找路径 Path 下的文件，直到 Filename 被找到。如果 Filename 是一个绝对路径的文件，那么 Path 将被忽略。然后从文件里读取并解析 Erlang 表达式，每一个表达式由 "." 隔开（或者是由 "," 隔开，一组表达式代码块也认为是一个表达式）。最后解析的结果不会返回；在文件里的任何表达式代码块必须有它自己的功能作用。返回的结果有以下：{ok, FullName}：文件被读取并解析。FullName �" />
+<meta name="keywords" content="path_eval/2,file,file:path_eval/2,erlang" />
+
+<title>file:path_eval/2 - Erlample（Erlang Example）</title>
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/css/bootstrap.min.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/erldocs.css" media="screen" />
+<link type="text/css" rel="stylesheet" href="http://erlple/html/frontend/shCoreDefault.css" media="screen" />
+</head>
+<body>
+<div id="erlple_nav">
+&nbsp;&nbsp;&nbsp;
+<a href="http://dhq.me/">dhq.me</a>
+&nbsp;»&nbsp;
+<a href="http://erlple/html/">Erlample（Erlang Example）</a>
+
+&nbsp;»&nbsp;
+<a href="http://erlple/html/modules/file/index.html?search=file:">file</a>
+&nbsp;»&nbsp;
+path_eval/2
+
+<div id="erlple_nav_mf">
+<a id="casual_look" href="javascript:void(0);">随便看看</a>
+&nbsp;
+<a href="http://erlple/html/mod_list.html">模块列表</a>
+&nbsp;
+<a href="http://erlple/html/func_list.html">方法列表</a>
+</div>
+</div>
+<div id="main">
+<div id="content">
+<div id="erlple_content">
+
+<h1>file:path_eval/2</h1>
+<p>对在一个文件里的 Erlang 表达式进行解析</p>
+<p>用法：</p>
+<pre class="brush:erl">path_eval(Path, Filename) -> {ok, FullName} | {error, Reason}</pre>
+<p>查找路径 Path 下的文件，直到 Filename 被找到。如果 Filename 是一个绝对路径的文件，那么 Path 将被忽略。然后从文件里读取并解析 Erlang 表达式，每一个表达式由 "." 隔开（或者是由 "," 隔开，一组表达式代码块也认为是一个表达式）。最后解析的结果不会返回；在文件里的任何表达式代码块必须有它自己的功能作用。返回的结果有以下：</p>
+<p>{ok, FullName}：文件被读取并解析。FullName 是文件的全部路径信息。</p>
+<p>{error, enoent}：在路径下的任何文件目录，找不到指定的文件。</p>
+<p>{error, atom()}：当打开或者是读取文件时发生了一个错误。</p>
+<p>{error, {Line, Mod, Term}}：当解析 Erlang 表达式时发生了一个错误。可以使用 <a href="http://erlple/html/modules/file/format_error_1.html?search=file:">file:format_error/1</a> 函数把这 three-element 的元组信息转为更详细直观的错误描述。</p>
+<p>假设在当前根目录下的 test 文件夹里有 test_file_path_eval.erl 这个文件，文件的内容如下：</p>
+<pre class="brush:erl">Fun = fun(E) ->
+    io:format("~p~n", [E])
+end,
+[Fun(E) || E <- lists:seq(1, 10)].
+</pre>
+<p>那么可以利用 <a href="http://erlple/html/modules/file/path_eval_2.html?search=file:">file:path_eval/2</a> 来动态解析这个文件</p>
+<div class="erlcode">
+<pre class="brush:erl">file:path_eval([".", "/app/test"], "test_file_path_eval.erl").
+</pre>
+</div>
+<div id="func_comments">
+<div id="disqus_thread"></div>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+
+</div>
+</div>
+<div id="sidebar">
+<input type="text" class="form-control" placeholder="Search..." value="Module List" id="search" autocomplete="off" />
+<ul id="results" class="list-group"></ul>
+</div>
+</div>
+<script type="text/javascript" src="http://erlple/html/frontend/shCore.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushErlang.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/shBrushCpp.js"></script>
+<script type="text/javascript">
+SyntaxHighlighter.all();
+var WEBURL = "http://erlple/html/";
+var ACTURL = "genserver.herokuapp.com";
+</script>
+<script type="text/javascript" src="http://erlple/html/frontend/jquery.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs_index.js"></script>
+<script type="text/javascript" src="http://erlple/html/frontend/erldocs.js"></script>
+
+<script type="text/javascript">
+$(window).load(function() {
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'dhqme'; // required: replace example with your forum shortname
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function() {
+var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+});
+</script>
+
+</body>
+</html>
