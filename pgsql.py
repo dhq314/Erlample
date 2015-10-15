@@ -1,10 +1,7 @@
+import os
+import json
 import psycopg2
 import psycopg2.extras
-
-DB_NAME = "erlample"
-DB_USER = "db_user"
-DB_PASSWORD = "db_password"
-DB_HOST = "127.0.0.1"
 
 
 class Pgsql:
@@ -12,6 +9,14 @@ class Pgsql:
     cursor = None
 
     def __init__(self):
+        config_file = os.path.join(os.path.dirname(__file__), 'config.json')
+        with open(config_file, 'rb') as f:
+        # f = open('config.json', 'rb')
+            config = json.load(f)
+        DB_NAME = config['db_name']
+        DB_USER = config['db_user']
+        DB_PASSWORD = config['db_password']
+        DB_HOST = config['db_host']
         self.conn = psycopg2.connect(
             "dbname=" + DB_NAME + " user=" + DB_USER + " password=" + DB_PASSWORD + " host=" + DB_HOST)
         self.cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)

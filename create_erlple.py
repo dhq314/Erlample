@@ -1,62 +1,23 @@
 #encoding:utf-8
 import os
+import json
 import re
-import sys
 import tornado.template
 import pgsql
 
-from tornado.options import define
-
-define("WEBNAME", default="Erlample（Erlang Example）")
-
-WEBNAME = "Erlample（Erlang Example）"
-ACTURL = "genserver.herokuapp.com"
-# ACTURL = "localhost:8080"
-
-BASE_DIR = "/Users/dengjoe/erlang/erlple/"
-# 资源目录
-ASSETS_DIR = BASE_DIR + "assets/"
-
-
-
-if len(sys.argv) > 1:
-    WEBURL = "http://dhq.me/erlample/"
-    PUB_DIR = "/Users/dengjoe/beanstalk/zotonic/priv/sites/dhqme/erlample/"
-else:
-    WEBURL = "http://erlple/html/"
-    PUB_DIR = BASE_DIR + "html/"
-
-MODULES_DIR = PUB_DIR + "modules/"
-
-os.system("rm -rf " + PUB_DIR + "*")
-os.system("cp -r " + ASSETS_DIR + " " + PUB_DIR)
-os.system("mkdir -p " + MODULES_DIR)
-
-root_directory = os.path.join(os.path.dirname(__file__), "templates/create")
-tpl = tornado.template.Loader(root_directory)
-pg = pgsql.Pgsql()
-ms = pg.fetchall("SELECT * FROM mod ORDER BY name ASC")
-
-
-def main():
-    create_index(ms)
-    create_mod_list()
-    create_func_list()
-    create_erldocs_index(ms)
-
 
 def create_index(ms):
-    content = tpl.load("index.html").generate(WEBNAME=WEBNAME, WEBURL=WEBURL, ACTURL=ACTURL, ms=ms)
+    content = tpl.load("index.html").generate(WEBNAME=WEB_NAME, WEBURL=WEB_URL, ACTURL=ACT_URL, ms=ms)
     save_file(PUB_DIR + "index.html", content)
 
 
 def create_mod_list():
-    content = tpl.load("mod_list.html").generate(WEBNAME=WEBNAME, WEBURL=WEBURL, ACTURL=ACTURL)
+    content = tpl.load("mod_list.html").generate(WEBNAME=WEB_NAME, WEBURL=WEB_URL, ACTURL=ACT_URL)
     save_file(PUB_DIR + "mod_list.html", content)
 
 
 def create_func_list():
-    content = tpl.load("func_list.html").generate(WEBNAME=WEBNAME, WEBURL=WEBURL, ACTURL=ACTURL)
+    content = tpl.load("func_list.html").generate(WEBNAME=WEB_NAME, WEBURL=WEB_URL, ACTURL=ACT_URL)
     save_file(PUB_DIR + "func_list.html", content)
 
 
@@ -79,7 +40,7 @@ def create_erldocs_index(ms):
         mod_name = MS[f['mid']]
         module_dir = MODULES_DIR + mod_name + "/"
         html = f['html'].replace("`", "'")
-        html = re.sub(regex, '<a href="' + WEBURL + 'modules/\\2/\\3_\\4.html?search=\\2:">\\2:\\3/\\4</a>', html)
+        html = re.sub(regex, '<a href="%smodules/\\2/\\3_\\4.html?search=\\2:">\\2:\\3/\\4</a>' % WEB_URL, html)
         desc = get_description(html)
         f['mod_name'] = mod_name
         f['desc'] = desc
@@ -97,14 +58,14 @@ def create_module_template(m, module_dir):
     for f in fs:
         f['fname'] = f['name'].replace("/", "_")
         tfs.append(f)
-    content = tpl.load("mod.html").generate(WEBNAME=WEBNAME, WEBURL=WEBURL, ACTURL=ACTURL, m=m, fs=tfs)
+    content = tpl.load("mod.html").generate(WEBNAME=WEB_NAME, WEBURL=WEB_URL, ACTURL=ACT_URL, m=m, fs=tfs)
     if m['html']:
         content = unescape(content)
     save_file(module_dir + "index.html", content)
 
 
 def create_func_template(f, module_dir, func_file_name):
-    content = tpl.load("func.html").generate(WEBNAME=WEBNAME, WEBURL=WEBURL, ACTURL=ACTURL, f=f)
+    content = tpl.load("func.html").generate(WEBNAME=WEB_NAME, WEBURL=WEB_URL, ACTURL=ACT_URL, f=f)
     content = unescape(content)
     save_file(module_dir + func_file_name + ".html", content)
 
@@ -140,9 +101,39 @@ def unescape(content):
         "&amp;gt;", ">")
 
 
-def strip_tags(str):
-    return re.sub(r'<[^>]*?>', '', str)
+def strip_tags(string):
+    return re.sub(r'<[^>]*?>', '', string)
 
 
 if __name__ == "__main__":
-    main()
+    config_file = os.path.join(os.path.dirname(__file__), 'config.json')
+    with open(config_file, 'rb') as f:
+        config = json.load(f)
+
+    WEB_NAME = config['web_name']
+    # WEB_URL = config['web_url']
+    ACT_URL = config['act_url']
+
+    BASE_DIR = "/Users/dengjoe/erlang/erlple/"
+
+    WEB_URL = "http://erlple/public_html/"
+    PUB_DIR = BASE_DIR + "public_html/"
+
+    # 资源目录
+    ASSETS_DIR = BASE_DIR + "assets/"
+    # 生成模块目录
+    MODULES_DIR = PUB_DIR + "modules/"
+
+    os.system("rm -rf " + PUB_DIR + "*")
+    os.system("cp -r " + ASSETS_DIR + " " + PUB_DIR)
+    os.system("mkdir -p " + MODULES_DIR)
+
+    root_directory = os.path.join(os.path.dirname(__file__), "templates/create")
+    tpl = tornado.template.Loader(root_directory)
+    pg = pgsql.Pgsql()
+    ms = pg.fetchall("SELECT * FROM mod ORDER BY name ASC")
+    create_index(ms)
+    create_mod_list()
+    create_func_list()
+    create_erldocs_index(ms)
+    print "Generate %s HTML DONE!" % WEB_NAME

@@ -3,11 +3,11 @@
 An Erlang Example Repository
 
 
-## Launch
+## Launch Web Server
 
     python ./erlple.py
     
     
-## Create Erlang Example Doc
+## Generate Erlang Example HTML
 
 	python ./create_erlple.py

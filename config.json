@@ -1,0 +1,12 @@
+{
+    "web_name": "Erlample（Erlang Example）",
+    "web_url" : "http://erlple/public_html/",
+    "web_server_listen_port": 8888,
+
+    "db_name": "erlple",
+    "db_user": "zotonic",
+    "db_password": "zotonic",
+    "db_host": "127.0.0.1",
+
+    "act_url": "genserver.herokuapp.com"
+}
