@@ -2,6 +2,10 @@
 
 An Erlang Example Repository
 
+## Dependencies
+
+- Python
+- PostgreSQL
 
 ## Launch Web Server
 
