@@ -1,6 +1,7 @@
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-#!/usr/bin/env python
+
 import os.path
 import json
 import tornado.httpserver
