@@ -26,3 +26,5 @@ Create Database
     createdb erlample -O erlample -E UTF8 -e
 
 Import erlample.sql to your database.
+
+    psql -f erlample.sql

@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
+
 import os
 import json
 import re
 import tornado.template
 import pgsql
 
+
+# reload(sys)
+# sys.setdefaultencoding('utf-8')
 
 def create_index(ms):
     content = tpl.load("index.html").generate(WEBNAME=WEB_NAME, WEBURL=WEB_URL, ACTURL=ACT_URL, ms=ms)

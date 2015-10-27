@@ -13,12 +13,12 @@ class Pgsql:
         with open(config_file, 'rb') as f:
         # f = open('config.json', 'rb')
             config = json.load(f)
-        DB_NAME = config['db_name']
-        DB_USER = config['db_user']
-        DB_PASSWORD = config['db_password']
-        DB_HOST = config['db_host']
+        db_name = config['db_name']
+        db_user = config['db_user']
+        db_password = config['db_password']
+        db_host = config['db_host']
         self.conn = psycopg2.connect(
-            "dbname=" + DB_NAME + " user=" + DB_USER + " password=" + DB_PASSWORD + " host=" + DB_HOST)
+            "dbname=" + db_name + " user=" + db_user + " password=" + db_password + " host=" + db_host)
         self.cursor = self.conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
 
     def __del__(self):
@@ -44,4 +44,3 @@ class Pgsql:
     def query(self, sql):
         self.cursor.execute(sql)
         self.conn.commit()
-
