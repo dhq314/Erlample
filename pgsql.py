@@ -10,9 +10,9 @@ class Pgsql:
 
     def __init__(self):
         config_file = os.path.join(os.path.dirname(__file__), 'config.json')
-        with open(config_file, 'rb') as f:
         # f = open('config.json', 'rb')
-            config = json.load(f)
+        with open(config_file, 'rb') as fp:
+            config = json.load(fp)
         db_name = config['db_name']
         db_user = config['db_user']
         db_password = config['db_password']
@@ -37,7 +37,7 @@ class Pgsql:
         rs = self.cursor.fetchall()
         return rs
 
-    def fetchnum(self, sql):
+    def fetch_num(self, sql):
         rs = self.fetchall(sql)
         return len(rs)
 

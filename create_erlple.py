@@ -26,36 +26,36 @@ def create_func_list():
 def create_erldocs_index(ms):
     content = ""
     content += "var index = [\n"
-    MS = {}
+    mod_dict = {}
     for m in ms:
         mod_name = m['name']
         module_dir = MODULES_DIR + mod_name + "/"
         os.system("mkdir -p " + module_dir)
         create_module_template(m, module_dir)
-        MS[m['id']] = mod_name
+        mod_dict[m['id']] = mod_name
         content += "\t['mod', '" + mod_name + "', '" + m['describe'] + "'],\n"
 
-    fs = pg.fetchall(
+    fun_list = pg.fetchall(
         "SELECT funcs.* FROM funcs INNER JOIN mod ON funcs.mid = mod.id ORDER BY mod.name ASC, funcs.name ASC")
     regex = re.compile(r'(\[)(\w+?):(.*?)\/(\d+?)(\])')
-    for f in fs:
-        mod_name = MS[f['mid']]
+    for fun in fun_list:
+        mod_name = mod_dict[fun['mid']]
         module_dir = MODULES_DIR + mod_name + "/"
-        html = f['html'].replace("`", "'")
+        html = fun['html'].replace("`", "'")
         html = re.sub(regex, '<a href="%smodules/\\2/\\3_\\4.html?search=\\2:">\\2:\\3/\\4</a>' % WEB_URL, html)
         desc = get_description(html)
-        f['mod_name'] = mod_name
-        f['desc'] = desc
-        f['html'] = html
-        func_file_name = f['name'].replace("/", "_")
-        create_func_template(f, module_dir, func_file_name)
-        content += "\t['fun', '" + mod_name + "', '" + f['name'] + "', '" + f['describe'] + "'],\n"
+        fun['mod_name'] = mod_name
+        fun['desc'] = desc
+        fun['html'] = html
+        func_file_name = fun['name'].replace("/", "_")
+        create_func_template(fun, module_dir, func_file_name)
+        content += "\t['fun', '" + mod_name + "', '" + fun['name'] + "', '" + fun['describe'] + "'],\n"
     content += "];\n"
     save_file(PUB_DIR + "frontend/erldocs_index.js", content)
 
 
 def create_module_template(m, module_dir):
-    fs = pg.fetchall("SELECT * FROM funcs WHERE mid = " + str(m['id']) + " ORDER BY name ASC")
+    fs = pg.fetchall("SELECT * FROM funcs WHERE mid = %d ORDER BY name ASC" % m['id'])
     tfs = []
     for f in fs:
         f['fname'] = f['name'].replace("/", "_")
@@ -113,8 +113,8 @@ if __name__ == "__main__":
         sys.setdefaultencoding("utf-8")
 
     config_file = os.path.join(os.path.dirname(__file__), 'config.json')
-    with open(config_file, 'rb') as f:
-        config = json.load(f)
+    with open(config_file, 'rb') as fp:
+        config = json.load(fp)
 
     WEB_NAME = config['web_name']
     WEB_URL = config['web_url']
@@ -136,9 +136,9 @@ if __name__ == "__main__":
     root_directory = os.path.join(os.path.dirname(__file__), "templates/create")
     tpl = tornado.template.Loader(root_directory)
     pg = pgsql.Pgsql()
-    ms = pg.fetchall("SELECT * FROM mod ORDER BY name ASC")
-    create_index(ms)
+    mod_list = pg.fetchall("SELECT * FROM mod ORDER BY name ASC")
+    create_index(mod_list)
     create_mod_list()
     create_func_list()
-    create_erldocs_index(ms)
+    create_erldocs_index(mod_list)
     print "Generate %s HTML DONE!" % WEB_NAME

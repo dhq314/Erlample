@@ -11,16 +11,6 @@ An Erlang Example Repository
 - PostgreSQL
 
 
-## Launch Web Server
-
-    python ./erlple.py
-    
-    
-## Generate Erlang Example HTML
-
-	python ./create_erlple.py
-
-
 ## Import erlample.sql
 
 Create Database
@@ -30,3 +20,13 @@ Create Database
 Import erlample.sql to your database.
 
     psql -f erlample.sql
+
+
+## Launch Web Server
+
+    python ./erlple.py
+    
+    
+## Generate Erlang Example HTML
+
+	python ./create_erlple.py

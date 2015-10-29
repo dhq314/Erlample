@@ -19,7 +19,7 @@ class MainHandler(tornado.web.RequestHandler):
         rs = pg.fetchall("SELECT * FROM mod")
         ms = []
         for r in rs:
-            r['func_num'] = pg.fetchnum("SELECT id FROM funcs WHERE mid = " + str(r['id']))
+            r['func_num'] = pg.fetch_num("SELECT id FROM funcs WHERE mid = %d" % r['id'])
             ms.append(r)
         self.render("mod_list.html", rs=ms)
 
@@ -29,7 +29,7 @@ class FunHandler(tornado.web.RequestHandler):
         condition = ""
         mflag = None
         if mid.isdigit():
-            condition = "WHERE mid = " + str(mid)
+            condition = "WHERE mid = %d" % mid
             mflag = mid
         pg = pgsql.Pgsql()
         fs = pg.fetchall("SELECT id, name, mid, describe FROM funcs " + condition + " ORDER BY id DESC")
@@ -69,7 +69,7 @@ class FunActionHandler(tornado.web.RequestHandler):
             ms = pg.fetchall("SELECT id, name FROM mod")
             tms = []
             for m in ms:
-                m['func_num'] = pg.fetchnum("SELECT id FROM funcs WHERE mid = " + str(m['id']))
+                m['func_num'] = pg.fetch_num("SELECT id FROM funcs WHERE mid = %d" % m['id'])
                 tms.append(m)
             rs['ms'] = tms
             rs['fs'] = None
@@ -81,7 +81,7 @@ class FunActionHandler(tornado.web.RequestHandler):
                 ms = pg.fetchall("SELECT id, name FROM mod")
                 tms = []
                 for m in ms:
-                    m['func_num'] = pg.fetchnum("SELECT id FROM funcs WHERE mid = " + str(m['id']))
+                    m['func_num'] = pg.fetch_num("SELECT id FROM funcs WHERE mid = " + str(m['id']))
                     tms.append(m)
                 fs = pg.fetchone("SELECT id, name, describe, usage, html, mid FROM funcs WHERE id = " + str(fid))
                 self.render("fun_action.html", ms=tms, fs=fs, mflag=None, funname=None)
@@ -128,7 +128,7 @@ class FunAction2Handler(tornado.web.RequestHandler):
             ms = pg.fetchall("SELECT id, name FROM mod")
             tms = []
             for m in ms:
-                m['func_num'] = pg.fetchnum("SELECT id FROM funcs WHERE mid = " + str(m['id']))
+                m['func_num'] = pg.fetch_num("SELECT id FROM funcs WHERE mid = " + str(m['id']))
                 tms.append(m)
             rs['ms'] = tms
             rs['fs'] = None
@@ -168,7 +168,7 @@ class ModActionHandler(tornado.web.RequestHandler):
             pg = pgsql.Pgsql()
             rs = pg.fetchall("SELECT id, name FROM mod")
             for r in rs:
-                func_num = pg.fetchnum("SELECT id FROM funcs WHERE mid = " + str(r['id']))
+                func_num = pg.fetch_num("SELECT id FROM funcs WHERE mid = " + str(r['id']))
                 ret[r['id']] = {"name": r['name'], "func_num": func_num}
             self.write(json_encode(ret))
 
@@ -210,8 +210,8 @@ def func_up(self):
 
 if __name__ == "__main__":
     config_file = os.path.join(os.path.dirname(__file__), 'config.json')
-    with open(config_file, 'rb') as f:
-        config = json.load(f)
+    with open(config_file, 'rb') as fp:
+        config = json.load(fp)
     WEB_NAME = config['web_name']
     WEB_SERVER_LISTEN_PORT = config['web_server_listen_port']
 
@@ -232,5 +232,5 @@ if __name__ == "__main__":
     application = tornado.web.Application(handlers, debug=True, **settings)
     http_server = tornado.httpserver.HTTPServer(application)
     http_server.listen(WEB_SERVER_LISTEN_PORT)
-    print "%s Server Launched, Listen Port %s..." % (WEB_NAME, str(WEB_SERVER_LISTEN_PORT))
+    print "%s Server Launched, Listen Port %d..." % (WEB_NAME, WEB_SERVER_LISTEN_PORT)
     tornado.ioloop.IOLoop.instance().start()
