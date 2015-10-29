@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 
+import sys
 import os
 import json
 import re
 import tornado.template
 import pgsql
 
-
-# reload(sys)
-# sys.setdefaultencoding('utf-8')
 
 def create_index(ms):
     content = tpl.load("index.html").generate(WEBNAME=WEB_NAME, WEBURL=WEB_URL, ACTURL=ACT_URL, ms=ms)
@@ -110,21 +108,24 @@ def strip_tags(string):
 
 
 if __name__ == "__main__":
+    if sys.getdefaultencoding() != 'gbk':
+        reload(sys)
+        sys.setdefaultencoding("utf-8")
+
     config_file = os.path.join(os.path.dirname(__file__), 'config.json')
     with open(config_file, 'rb') as f:
         config = json.load(f)
 
     WEB_NAME = config['web_name']
-    # WEB_URL = config['web_url']
+    WEB_URL = config['web_url']
     ACT_URL = config['act_url']
 
-    BASE_DIR = "/Users/dengjoe/erlang/erlple/"
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-    WEB_URL = "http://erlple/public_html/"
-    PUB_DIR = BASE_DIR + "public_html/"
+    PUB_DIR = BASE_DIR + "/public_html/"
 
     # 资源目录
-    ASSETS_DIR = BASE_DIR + "assets/"
+    ASSETS_DIR = BASE_DIR + "/assets/"
     # 生成模块目录
     MODULES_DIR = PUB_DIR + "modules/"
 

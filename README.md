@@ -6,6 +6,8 @@ An Erlang Example Repository
 ## Dependencies
 
 - Python
+- [Tornado](http://www.tornadoweb.org/) 
+- [Psycopg](http://www.psycopg.org/psycopg/)
 - PostgreSQL
 
 
