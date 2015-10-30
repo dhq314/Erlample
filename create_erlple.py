@@ -1,4 +1,10 @@
 # -*- coding: utf-8 -*-
+"""
+生成 Erlample 的显示页面
+Created on 2013/05/27
+@author: Joe Deng
+@contact: dhq314@gmail.com
+"""
 
 import sys
 import os

@@ -1,6 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-
+"""
+Erlample 管理后台
+Created on 2013/05/23
+@author: Joe Deng
+@contact: dhq314@gmail.com
+"""
 
 import os.path
 import json
@@ -17,11 +22,11 @@ class MainHandler(tornado.web.RequestHandler):
     def get(self):
         pg = pgsql.Pgsql()
         rs = pg.fetchall("SELECT * FROM mod")
-        ms = []
+        mod_list = []
         for r in rs:
             r['func_num'] = pg.fetch_num("SELECT id FROM funcs WHERE mid = %d" % r['id'])
-            ms.append(r)
-        self.render("mod_list.html", rs=ms)
+            mod_list.append(r)
+        self.render("mod_list.html", rs=mod_list)
 
 
 class FunHandler(tornado.web.RequestHandler):
@@ -36,9 +41,9 @@ class FunHandler(tornado.web.RequestHandler):
         i = len(fs)
         if i > 0:
             ms = pg.fetchall("SELECT id, name FROM mod ORDER BY name ASC")
-            dms = {}
+            mod_name_dict = {}
             for m in ms:
-                dms[m['id']] = m['name']
+                mod_name_dict[m['id']] = m['name']
             rs = []
             for f in fs:
                 f['index'] = i
@@ -46,7 +51,7 @@ class FunHandler(tornado.web.RequestHandler):
                     print f
                     mod_name = "no_mod_name"
                 else:
-                    mod_name = dms[f['mid']]
+                    mod_name = mod_name_dict[f['mid']]
                 url = "http://erlple/html/modules/" + mod_name + "/" + \
                       f['name'].replace("/", "_") + ".html?search=" + mod_name + ":"
                 f['mod_name'] = mod_name
@@ -81,9 +86,9 @@ class FunActionHandler(tornado.web.RequestHandler):
                 ms = pg.fetchall("SELECT id, name FROM mod")
                 tms = []
                 for m in ms:
-                    m['func_num'] = pg.fetch_num("SELECT id FROM funcs WHERE mid = " + str(m['id']))
+                    m['func_num'] = pg.fetch_num("SELECT id FROM funcs WHERE mid = %d" % m['id'])
                     tms.append(m)
-                fs = pg.fetchone("SELECT id, name, describe, usage, html, mid FROM funcs WHERE id = " + str(fid))
+                fs = pg.fetchone("SELECT id, name, describe, usage, html, mid FROM funcs WHERE id = %d" % fid)
                 self.render("fun_action.html", ms=tms, fs=fs, mflag=None, funname=None)
             else:
                 self.redirect("/fun/")

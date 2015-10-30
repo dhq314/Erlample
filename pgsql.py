@@ -1,3 +1,11 @@
+# -*- coding:utf-8 -*-
+"""
+PostgreSQL 数据库操作类
+Created on 2013/05/23
+@author: Joe Deng
+@contact: dhq314@gmail.com
+"""
+
 import os
 import json
 import psycopg2
