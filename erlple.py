@@ -21,21 +21,22 @@ import pgsql
 class MainHandler(tornado.web.RequestHandler):
     def get(self):
         pg = pgsql.Pgsql()
-        rs = pg.fetchall("SELECT * FROM mod")
+        ms = pg.fetchall("SELECT id, name, describe, html FROM mod")
         mod_list = []
-        for r in rs:
-            r['func_num'] = pg.fetch_num("SELECT id FROM funcs WHERE mid = %d" % r['id'])
-            mod_list.append(r)
-        self.render("mod_list.html", rs=mod_list)
+        for m in ms:
+            m['func_num'] = pg.fetch_num("SELECT id FROM funcs WHERE mid = %d" % m['id'])
+            mod_list.append(m)
+        self.render("mod_list.html", mod_list=mod_list)
 
 
 class FunHandler(tornado.web.RequestHandler):
     def get(self, mid):
         condition = ""
-        mflag = None
+        template_variables = {}
+        current_mid = None
         if mid.isdigit():
-            condition = "WHERE mid = %d" % mid
-            mflag = mid
+            condition = "WHERE mid = %s" % mid
+            current_mid = mid
         pg = pgsql.Pgsql()
         fs = pg.fetchall("SELECT id, name, mid, describe FROM funcs " + condition + " ORDER BY id DESC")
         i = len(fs)
@@ -60,15 +61,17 @@ class FunHandler(tornado.web.RequestHandler):
                 i -= 1
         else:
             rs = None
-        self.render("fun_list.html", rs=rs, mflag=mflag)
+        template_variables['rs'] = rs
+        template_variables['current_mid'] = current_mid
+        self.render("fun_list.html", **template_variables)
 
 
 class FunActionHandler(tornado.web.RequestHandler):
     def get(self, action, fid):
         if action == "add":
-            mflag = None
+            current_mid = None
             if fid.isdigit():
-                mflag = int(fid)
+                current_mid = int(fid)
             rs = {}
             pg = pgsql.Pgsql()
             ms = pg.fetchall("SELECT id, name FROM mod")
@@ -78,7 +81,7 @@ class FunActionHandler(tornado.web.RequestHandler):
                 tms.append(m)
             rs['ms'] = tms
             rs['fs'] = None
-            self.render("fun_action.html", ms=tms, fs=None, mflag=mflag, funname=None)
+            self.render("fun_action.html", ms=tms, fs=None, current_mid=current_mid, funname=None)
         elif action == "up":
             fid = fid.strip()
             if fid.isdigit():
@@ -88,8 +91,8 @@ class FunActionHandler(tornado.web.RequestHandler):
                 for m in ms:
                     m['func_num'] = pg.fetch_num("SELECT id FROM funcs WHERE mid = %d" % m['id'])
                     tms.append(m)
-                fs = pg.fetchone("SELECT id, name, describe, usage, html, mid FROM funcs WHERE id = %d" % fid)
-                self.render("fun_action.html", ms=tms, fs=fs, mflag=None, funname=None)
+                fs = pg.fetchone("SELECT id, name, describe, usage, html, mid FROM funcs WHERE id = %s" % fid)
+                self.render("fun_action.html", ms=tms, fs=fs, current_mid=None, funname=None)
             else:
                 self.redirect("/fun/")
         elif action == "del":
@@ -125,20 +128,23 @@ class FunAction2Handler(tornado.web.RequestHandler):
     def get(self, action, mid, func_name):
         print func_name
         if action == "add":
-            mflag = None
+            current_mid = None
             if mid.isdigit():
-                mflag = int(mid)
-            rs = {}
+                current_mid = int(mid)
             pg = pgsql.Pgsql()
             ms = pg.fetchall("SELECT id, name FROM mod")
-            tms = []
+            mod_list = []
             for m in ms:
-                m['func_num'] = pg.fetch_num("SELECT id FROM funcs WHERE mid = " + str(m['id']))
-                tms.append(m)
-            rs['ms'] = tms
-            rs['fs'] = None
+                m['func_num'] = pg.fetch_num("SELECT id FROM funcs WHERE mid = %d" % m['id'])
+                mod_list.append(m)
             func_name = func_name.replace("-", "/")
-            self.render("fun_action.html", ms=tms, fs=None, mflag=mflag, funname=func_name)
+            template_variables = dict(
+                ms=mod_list,
+                fs=None,
+                current_mid=current_mid,
+                funname=func_name
+            )
+            self.render("fun_action.html", **template_variables)
 
 
 class ModActionHandler(tornado.web.RequestHandler):
@@ -214,7 +220,8 @@ def func_up(self):
 
 
 if __name__ == "__main__":
-    config_file = os.path.join(os.path.dirname(__file__), 'config.json')
+    root_path = os.path.dirname(__file__)
+    config_file = os.path.join(root_path, 'config.json')
     with open(config_file, 'rb') as fp:
         config = json.load(fp)
     WEB_NAME = config['web_name']
@@ -231,8 +238,8 @@ if __name__ == "__main__":
     ]
     settings = dict(
         title=WEB_NAME,
-        template_path=os.path.join(os.path.dirname(__file__), "templates"),
-        static_path=os.path.join(os.path.dirname(__file__), "static")
+        template_path=os.path.join(root_path, "templates"),
+        static_path=os.path.join(root_path, "static")
     )
     application = tornado.web.Application(handlers, debug=True, **settings)
     http_server = tornado.httpserver.HTTPServer(application)

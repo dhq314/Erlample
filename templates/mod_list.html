@@ -22,7 +22,7 @@
             <td>状态（<span id="current_func">0</span>/<span id="total_func">0</span>）</td>
         </tr>
         <tbody id="mod_list">
-        {% for r in rs %}
+        {% for r in mod_list %}
             <tr class="mod_tr" mid="{{ r['id'] }}" data="{{ r['func_num'] }}" name="{{ r['name'] }}" color="#FFFFFF">
                 <td id="td_id_{{ r['id'] }}">{{ r['id'] }}</td>
                 <td id="td_name_{{ r['id'] }}"><a href="/fun/{{ r['id'] }}">{{ r['name'] }}</a></td>

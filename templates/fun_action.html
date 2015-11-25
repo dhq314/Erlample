@@ -63,7 +63,7 @@
         <div class="col-sm-10">
             <select name="mid" class="form-control">
                 {% for m in ms %}
-                    <option class="mod_name_opt" data="{{ m['func_num'] }}" value="{{ m['id'] }}" {% if fs %}{% if m['id'] == fs['mid'] %}selected{% end %}{% else %}{% if m['id'] == mflag %}selected{% end %}{% end %}>{{ m['name'] }}</option>
+                    <option class="mod_name_opt" data="{{ m['func_num'] }}" value="{{ m['id'] }}" {% if fs %}{% if m['id'] == fs['mid'] %}selected{% end %}{% else %}{% if m['id'] == current_mid %}selected{% end %}{% end %}>{{ m['name'] }}</option>
                 {% end %}
             </select>
         </div>

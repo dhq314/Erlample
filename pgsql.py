@@ -13,6 +13,7 @@ import psycopg2.extras
 
 
 class Pgsql:
+
     conn = None
     cursor = None
 
