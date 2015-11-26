@@ -9,6 +9,7 @@ Created on 2013/05/23
 
 import os.path
 import json
+import urlparse
 import tornado.httpserver
 import tornado.ioloop
 import tornado.options
@@ -19,14 +20,25 @@ import pgsql
 
 
 class MainHandler(tornado.web.RequestHandler):
-    def get(self):
+    def get(self, cur_page):
+        per_page = 20
+        total_sql = "SELECT id FROM mod"
+        cur_page, total_page, prev_page, next_page, start = page(cur_page, per_page, total_sql)
+
         pg = pgsql.Pgsql()
-        ms = pg.fetchall("SELECT id, name, describe, html FROM mod")
+        ms = pg.fetchall("SELECT id, name, describe, html FROM mod LIMIT %d OFFSET %d" % (per_page, start))
         mod_list = []
         for m in ms:
             m['func_num'] = pg.fetch_num("SELECT id FROM funcs WHERE mid = %d" % m['id'])
             mod_list.append(m)
-        self.render("mod_list.html", mod_list=mod_list)
+        template_variables = dict(
+            mod_list=mod_list,
+            cur_page=cur_page,
+            total_page=total_page,
+            prev_page=prev_page,
+            next_page=next_page
+        )
+        self.render("mod_list.html", **template_variables)
 
 
 class FunHandler(tornado.web.RequestHandler):
@@ -37,8 +49,22 @@ class FunHandler(tornado.web.RequestHandler):
         if mid.isdigit():
             condition = "WHERE mid = %s" % mid
             current_mid = mid
+
+        query_args = qs(self.request.uri)
+        # if query_args['page']:
+        #     cur_page = query_args['page']
+        # else:
+        #     cur_page = "1"
+        cur_page = "1"
+        print cur_page
+        per_page = 30
+        total_sql = "SELECT id FROM funcs %s" % condition
+        cur_page, total_page, prev_page, next_page, start = page(cur_page, per_page, total_sql)
+
         pg = pgsql.Pgsql()
-        fs = pg.fetchall("SELECT id, name, mid, describe FROM funcs " + condition + " ORDER BY id DESC")
+        fs = pg.fetchall("SELECT id, name, mid, describe FROM funcs %s ORDER BY id DESC LIMIT %d OFFSET %d" % (
+            condition, per_page, start))
+
         i = len(fs)
         if i > 0:
             ms = pg.fetchall("SELECT id, name FROM mod ORDER BY name ASC")
@@ -46,6 +72,7 @@ class FunHandler(tornado.web.RequestHandler):
             for m in ms:
                 mod_name_dict[m['id']] = m['name']
             rs = []
+            config_data = get_config_data()
             for f in fs:
                 f['index'] = i
                 if f['mid'] == 0 or f['mid'] == "0":
@@ -53,7 +80,7 @@ class FunHandler(tornado.web.RequestHandler):
                     mod_name = "no_mod_name"
                 else:
                     mod_name = mod_name_dict[f['mid']]
-                url = "http://erlple/html/modules/" + mod_name + "/" + \
+                url = config_data['web_url'] + "modules/" + mod_name + "/" + \
                       f['name'].replace("/", "_") + ".html?search=" + mod_name + ":"
                 f['mod_name'] = mod_name
                 f['url'] = url
@@ -72,27 +99,36 @@ class FunActionHandler(tornado.web.RequestHandler):
             current_mid = None
             if fid.isdigit():
                 current_mid = int(fid)
-            rs = {}
             pg = pgsql.Pgsql()
             ms = pg.fetchall("SELECT id, name FROM mod")
-            tms = []
+            mod_list = []
             for m in ms:
                 m['func_num'] = pg.fetch_num("SELECT id FROM funcs WHERE mid = %d" % m['id'])
-                tms.append(m)
-            rs['ms'] = tms
-            rs['fs'] = None
-            self.render("fun_action.html", ms=tms, fs=None, current_mid=current_mid, funname=None)
+                mod_list.append(m)
+            template_variables = dict(
+                ms=mod_list,
+                fs=None,
+                current_mid=current_mid,
+                funname=None
+            )
+            self.render("fun_action.html", **template_variables)
         elif action == "up":
             fid = fid.strip()
             if fid.isdigit():
                 pg = pgsql.Pgsql()
                 ms = pg.fetchall("SELECT id, name FROM mod")
-                tms = []
+                mod_list = []
                 for m in ms:
                     m['func_num'] = pg.fetch_num("SELECT id FROM funcs WHERE mid = %d" % m['id'])
-                    tms.append(m)
+                    mod_list.append(m)
                 fs = pg.fetchone("SELECT id, name, describe, usage, html, mid FROM funcs WHERE id = %s" % fid)
-                self.render("fun_action.html", ms=tms, fs=fs, current_mid=None, funname=None)
+                template_variables = dict(
+                    ms=mod_list,
+                    fs=fs,
+                    current_mid=None,
+                    funname=None
+                )
+                self.render("fun_action.html", **template_variables)
             else:
                 self.redirect("/fun/")
         elif action == "del":
@@ -119,14 +155,25 @@ class FunActionHandler(tornado.web.RequestHandler):
                 pg.query("INSERT INTO funcs(name, mid, html, describe, usage) values('" + func_name + "', " +
                          mid + ", '" + func_html + "', '" + func_desc + "', '" + func_usage + "')")
         elif action == "updating":
-            func_up(self)
-        os.system("python /Users/dengjoe/erlang/erlple/create_erlple.py")
+            fid = self.get_argument("fid", None)
+            mid = self.get_argument("mid", None)
+            func_name = self.get_argument("func_name", None).replace("'", "`")
+            func_html = self.get_argument("func_html", None).replace("'", "`")
+            func_desc = self.get_argument("func_desc", None).replace("'", "`")
+            func_usage = self.get_argument("func_usage", None).replace("'", "`")
+            if fid.isdigit() and mid.isdigit() and func_name and func_html:
+                pg = pgsql.Pgsql()
+                pg.query(
+                    "UPDATE funcs SET name = '" + func_name + "', mid = " + mid + ", html = '" + func_html +
+                    "', describe = '" + func_desc + "', usage = '" + func_usage + "' WHERE id = " + fid)
+        create_erlple_file = os.path.join(os.path.dirname(__file__), 'create_erlple.py')
+        os.system("python %s" % create_erlple_file)
         self.redirect("/fun/")
 
 
 class FunAction2Handler(tornado.web.RequestHandler):
     def get(self, action, mid, func_name):
-        print func_name
+        # print func_name
         if action == "add":
             current_mid = None
             if mid.isdigit():
@@ -206,36 +253,78 @@ class ModActionHandler(tornado.web.RequestHandler):
         self.redirect("/")
 
 
-def func_up(self):
-    fid = self.get_argument("fid", None)
-    mid = self.get_argument("mid", None)
-    func_name = self.get_argument("func_name", None).replace("'", "`")
-    func_html = self.get_argument("func_html", None).replace("'", "`")
-    func_desc = self.get_argument("func_desc", None).replace("'", "`")
-    func_usage = self.get_argument("func_usage", None).replace("'", "`")
-    if fid.isdigit() and mid.isdigit() and func_name and func_html:
-        pg = pgsql.Pgsql()
-        pg.query("UPDATE funcs SET name = '" + func_name + "', mid = " + mid + ", html = '" + func_html +
-                 "', describe = '" + func_desc + "', usage = '" + func_usage + "' WHERE id = " + fid)
+def get_config_data():
+    """
+    获取配置数据
+    :return: config_data
+    """
+    config_file = os.path.join(os.path.dirname(__file__), 'config.json')
+    with open(config_file, 'rb') as fp:
+        config_data = json.load(fp)
+    return config_data
+
+
+def page(cur_page, per_page, total_sql):
+    """
+    分页函数
+    """
+    pg = pgsql.Pgsql()
+    total_num = pg.fetch_num(total_sql)
+    total_page = ceil2(total_num, per_page)
+
+    cur_page = cur_page.strip()
+    if cur_page.isdigit():
+        cur_page = int(cur_page)
+        if cur_page < 1:
+            cur_page = 1
+    else:
+        cur_page = 1
+    prev_page = cur_page - 1
+    if prev_page < 1:
+        prev_page = 1
+    next_page = cur_page + 1
+    if next_page > total_page:
+        next_page = total_page
+    start = (cur_page - 1) * per_page
+
+    return cur_page, total_page, prev_page, next_page, start
+
+
+def ceil2(x, y):
+    """
+    Python2 的除数向上取整
+    :param x: 除数
+    :param y: 被除数
+    :return: 向上取整的值
+    """
+    (div, mod) = divmod(x, y)
+    if mod > 0:
+        return div + 1
+    else:
+        return div
+
+
+def qs(url):
+    query = urlparse.urlparse(url).query
+    return dict([(k, v[0]) for k, v in urlparse.parse_qs(query).items()])
 
 
 if __name__ == "__main__":
-    root_path = os.path.dirname(__file__)
-    config_file = os.path.join(root_path, 'config.json')
-    with open(config_file, 'rb') as fp:
-        config = json.load(fp)
+    config = get_config_data()
     WEB_NAME = config['web_name']
     WEB_SERVER_LISTEN_PORT = config['web_server_listen_port']
 
     tornado.options.parse_command_line()
     handlers = [
         (r"/mod_action/(.+)/(.*)", ModActionHandler),
-        (r"/mod", MainHandler),
+        (r"/mod/(.*)", MainHandler),
+        (r"/mod(.*)", MainHandler),
         (r"/fun_action/(.+)/(.*)", FunActionHandler),
         (r"/fun_action2/(.+)/(.*)/(.*)", FunAction2Handler),
         (r"/fun/(.*)", FunHandler),
-        (r"/", MainHandler)
+        (r"/(.*)", MainHandler)
     ]
+    root_path = os.path.dirname(__file__)
     settings = dict(
         title=WEB_NAME,
         template_path=os.path.join(root_path, "templates"),

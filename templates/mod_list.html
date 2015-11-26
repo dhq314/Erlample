@@ -2,42 +2,54 @@
 
 {% block body %}
 
-    <div class="form-inline erlple-action">
-        <div class="form-group">
-            <input type="text" class="form-control" id="cmn" placeholder="输入模块名" />
-        </div>
-        <button id="smn" class="btn btn-default">查 询</button>
-        <span id="mns"></span>
-        <div class="pull-right">
-            <a href="/mod_action/add/" class="btn btn-primary">添加模块</a>
-        </div>
+<div class="form-inline erlple-action">
+    <div class="form-group">
+        <input type="text" class="form-control" id="cmn" placeholder="输入模块名"/>
     </div>
+    <button id="smn" class="btn btn-default">查 询</button>
+    <span id="mns"></span>
 
-    <table class="table table-hover">
-        <tr>
-            <td>编号</td>
-            <td>模块名</td>
-            <td>描述</td>
-            <td>操作</td>
-            <td>状态（<span id="current_func">0</span>/<span id="total_func">0</span>）</td>
-        </tr>
-        <tbody id="mod_list">
-        {% for r in mod_list %}
-            <tr class="mod_tr" mid="{{ r['id'] }}" data="{{ r['func_num'] }}" name="{{ r['name'] }}" color="#FFFFFF">
-                <td id="td_id_{{ r['id'] }}">{{ r['id'] }}</td>
-                <td id="td_name_{{ r['id'] }}"><a href="/fun/{{ r['id'] }}">{{ r['name'] }}</a></td>
-                <td id="td_desc_{{ r['id'] }}">{{ r['describe'] }}</td>
-                <td>
-                    <a href="/mod_action/del/{{ r['id'] }}">删除</a>
-                    &nbsp;
-                    <a href="/mod_action/up/{{ r['id'] }}">修改</a>
-                    &nbsp;
-                    <a href="http://erlple/html/modules/{{ r['name'] }}/index.html?search={{ r['name'] }}:" target="_blank">查看</a>
-                </td>
-                <td id="{{ r['name'] }}_sta">{{ r['func_num'] }}</td>
-            </tr>
+    <div class="pull-right">
+        <a href="/mod_action/add/" class="btn btn-primary">添加模块</a>
+    </div>
+</div>
+
+<table class="table table-hover">
+    <tr>
+        <td>编号</td>
+        <td>模块名</td>
+        <td>描述</td>
+        <td>操作</td>
+        <td>状态（<span id="current_func">0</span>/<span id="total_func">0</span>）</td>
+    </tr>
+    <tbody id="mod_list">
+    {% for r in mod_list %}
+    <tr class="mod_tr" mid="{{ r['id'] }}" data="{{ r['func_num'] }}" name="{{ r['name'] }}" color="#FFFFFF">
+        <td id="td_id_{{ r['id'] }}">{{ r['id'] }}</td>
+        <td id="td_name_{{ r['id'] }}"><a href="/fun/{{ r['id'] }}">{{ r['name'] }}</a></td>
+        <td id="td_desc_{{ r['id'] }}">{{ r['describe'] }}</td>
+        <td>
+            <a href="/mod_action/del/{{ r['id'] }}">删除</a>
+            &nbsp;
+            <a href="/mod_action/up/{{ r['id'] }}">修改</a>
+            &nbsp;
+            <a href="http://erlple/html/modules/{{ r['name'] }}/index.html?search={{ r['name'] }}:"
+               target="_blank">查看</a>
+        </td>
+        <td id="{{ r['name'] }}_sta">{{ r['func_num'] }}</td>
+    </tr>
+    {% end %}
+    </tbody>
+</table>
+
+<div class="text-center">
+    <ul class="pagination">
+        <li><a href="/mod/{{ prev_page }}">&laquo;</a></li>
+        {% for p in range(1, total_page + 1) %}
+        <li {% if p == cur_page %}class = "active"{% end %}><a href="/mod/{{ p }}">{{ p }}</a></li>
         {% end %}
-        </tbody>
-    </table>
+        <li><a href="/mod/{{ next_page }}">&raquo;</a></li>
+    </ul>
+</div>
 
 {% end %}
