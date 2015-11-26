@@ -51,13 +51,11 @@ class FunHandler(tornado.web.RequestHandler):
             current_mid = mid
 
         query_args = qs(self.request.uri)
-        # if query_args['page']:
-        #     cur_page = query_args['page']
-        # else:
-        #     cur_page = "1"
-        cur_page = "1"
-        print cur_page
-        per_page = 30
+        if 'page' in query_args.keys():
+            cur_page = query_args['page']
+        else:
+            cur_page = "1"
+        per_page = 50
         total_sql = "SELECT id FROM funcs %s" % condition
         cur_page, total_page, prev_page, next_page, start = page(cur_page, per_page, total_sql)
 
@@ -73,10 +71,10 @@ class FunHandler(tornado.web.RequestHandler):
                 mod_name_dict[m['id']] = m['name']
             rs = []
             config_data = get_config_data()
+            i = 1
             for f in fs:
                 f['index'] = i
                 if f['mid'] == 0 or f['mid'] == "0":
-                    print f
                     mod_name = "no_mod_name"
                 else:
                     mod_name = mod_name_dict[f['mid']]
@@ -85,11 +83,15 @@ class FunHandler(tornado.web.RequestHandler):
                 f['mod_name'] = mod_name
                 f['url'] = url
                 rs.append(f)
-                i -= 1
+                i += 1
         else:
             rs = None
         template_variables['rs'] = rs
         template_variables['current_mid'] = current_mid
+        template_variables['cur_page'] = cur_page
+        template_variables['total_page'] = total_page
+        template_variables['prev_page'] = prev_page
+        template_variables['next_page'] = next_page
         self.render("fun_list.html", **template_variables)
 
 

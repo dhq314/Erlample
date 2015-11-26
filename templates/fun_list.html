@@ -29,7 +29,7 @@
         <td>
             <a href="/fun_action/del/{{ r['id'] }}">删除</a>
             &nbsp;
-            <a href="/fun_action/up/{{ r['id'] }}"  data="{{ r['id'] }}">修改</a>
+            <a href="/fun_action/up/{{ r['id'] }}" data="{{ r['id'] }}">修改</a>
             &nbsp;
             <a href="{{ r['url'] }}" target="_blank">查看</a>
         </td>
@@ -38,6 +38,17 @@
     {% end %}
     </tbody>
 </table>
+
+<div class="text-center">
+    <ul class="pagination">
+        <li><a href="/fun/{% if current_mid %}{{ current_mid }}{% end %}?page={{ prev_page }}">&laquo;</a></li>
+        {% for p in range(1, total_page + 1) %}
+        <li {% if p== cur_page %}class="active" {% end %}><a
+                href="/fun/{% if current_mid %}{{ current_mid }}{% end %}?page={{ p }}">{{ p }}</a></li>
+        {% end %}
+        <li><a href="/fun/{% if current_mid %}{{ current_mid }}{% end %}?page={{ next_page }}">&raquo;</a></li>
+    </ul>
+</div>
 
 {% end %}
 
