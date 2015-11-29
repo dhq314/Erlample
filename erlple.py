@@ -9,7 +9,6 @@ Created on 2013/05/23
 
 import os.path
 import json
-import urlparse
 import tornado.httpserver
 import tornado.ioloop
 import tornado.options
@@ -17,16 +16,17 @@ import tornado.web
 from tornado.escape import json_encode
 
 import pgsql
+import util
 
 
 class MainHandler(tornado.web.RequestHandler):
     def get(self, cur_page):
         per_page = 20
         total_sql = "SELECT id FROM mod"
-        cur_page, total_page, prev_page, next_page, start = page(cur_page, per_page, total_sql)
+        cur_page, total_page, prev_page, next_page, offset = util.page(cur_page, per_page, total_sql)
 
         pg = pgsql.Pgsql()
-        ms = pg.fetchall("SELECT id, name, describe, html FROM mod LIMIT %d OFFSET %d" % (per_page, start))
+        ms = pg.fetchall("SELECT id, name, describe, html FROM mod LIMIT %d OFFSET %d" % (per_page, offset))
         mod_list = []
         for m in ms:
             m['func_num'] = pg.fetch_num("SELECT id FROM funcs WHERE mid = %d" % m['id'])
@@ -50,18 +50,18 @@ class FunHandler(tornado.web.RequestHandler):
             condition = "WHERE mid = %s" % mid
             current_mid = mid
 
-        query_args = qs(self.request.uri)
+        query_args = util.qs(self.request.uri)
         if 'page' in query_args.keys():
             cur_page = query_args['page']
         else:
             cur_page = "1"
         per_page = 50
         total_sql = "SELECT id FROM funcs %s" % condition
-        cur_page, total_page, prev_page, next_page, start = page(cur_page, per_page, total_sql)
+        cur_page, total_page, prev_page, next_page, offset = util.page(cur_page, per_page, total_sql)
 
         pg = pgsql.Pgsql()
         fs = pg.fetchall("SELECT id, name, mid, describe FROM funcs %s ORDER BY id DESC LIMIT %d OFFSET %d" % (
-            condition, per_page, start))
+            condition, per_page, offset))
 
         i = len(fs)
         if i > 0:
@@ -264,51 +264,6 @@ def get_config_data():
     with open(config_file, 'rb') as fp:
         config_data = json.load(fp)
     return config_data
-
-
-def page(cur_page, per_page, total_sql):
-    """
-    分页函数
-    """
-    pg = pgsql.Pgsql()
-    total_num = pg.fetch_num(total_sql)
-    total_page = ceil2(total_num, per_page)
-
-    cur_page = cur_page.strip()
-    if cur_page.isdigit():
-        cur_page = int(cur_page)
-        if cur_page < 1:
-            cur_page = 1
-    else:
-        cur_page = 1
-    prev_page = cur_page - 1
-    if prev_page < 1:
-        prev_page = 1
-    next_page = cur_page + 1
-    if next_page > total_page:
-        next_page = total_page
-    start = (cur_page - 1) * per_page
-
-    return cur_page, total_page, prev_page, next_page, start
-
-
-def ceil2(x, y):
-    """
-    Python2 的除数向上取整
-    :param x: 除数
-    :param y: 被除数
-    :return: 向上取整的值
-    """
-    (div, mod) = divmod(x, y)
-    if mod > 0:
-        return div + 1
-    else:
-        return div
-
-
-def qs(url):
-    query = urlparse.urlparse(url).query
-    return dict([(k, v[0]) for k, v in urlparse.parse_qs(query).items()])
 
 
 if __name__ == "__main__":
