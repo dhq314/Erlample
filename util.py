@@ -24,7 +24,7 @@ def ceil2(x, y):
         return div
 
 
-def qs(url):
+def parse_qs(url):
     """
     获取 URL 参数
     :return: dict

@@ -1,63 +1,76 @@
-{% extends "base.html" %}
+<script type="text/javascript">
+    $(window).load(function () {
+        var EtsInfo = {
+            per_page: 15,
+            cur_page: 1,
+            cur_node: '{{cur_node}}',
+            ets: '{{ets}}',
+            ets_size: 0,
 
-{% block body %}
+            get_vm_ets_detail: function () {
+                Util.show_tips("Loading...", 0, "");
+                var url = "./vm_state?act=get_vm_ets_detail&ets="
+                        + EtsInfo.ets + "&cur_node=" + EtsInfo.cur_node;
+                $.getJSON(url, {}, function (j) {
+                    var _html = [];
+			        _html.push("<tr>");
+                    _html.push("<td width='25%'>ID</td>");
+                    _html.push("<td>", EtsInfo.ets, "</td>");
+                    _html.push("</tr>");
+                    $.each(j, function (key, val) {
+                        switch (key) {
+                            case "name":
+                                $("#ets_name").html(val);
+                                break;
+                            case "size":
+                                EtsInfo.ets_size = val;
+                                break;
+                        }
+                        _html.push("<tr>");
+                        _html.push("<td>", key, "</td>");
+                        _html.push("<td>", val, "</td>");
+                        _html.push("</tr>");
+                    });
+                    $("#ets_detail_zone").html(_html.join(""));
 
-<div class="pull-right erlple-action">
-    <a href="/fun_action/add/{% if current_mid %}{{ current_mid }}{% end %}" class="btn btn-primary">添加方法</a>
-</div>
+                    Util.hide_tips();
+                });
+            },
 
-<table class="table table-striped table-hover">
-    <thead>
-    <tr>
-        <td>编号</td>
-        <td>模块名</td>
-        <td>方法名</td>
-        <td>描述</td>
-        <td>操作</td>
-    </tr>
-    </thead>
-    <tbody>
-    {% if rs %}
-    {% for r in rs %}
-    <tr>
-        <td id="td_id_{{ r['id'] }}">{{ r['index'] }}</td>
-        <td id="td_desc_{{ r['id'] }}">
-            <a href="/fun/{{ r['mid'] }}">{{ r['mod_name'] }}</a>
-        </td>
-        <td id="td_name_{{ r['id'] }}">{{ r['name'] }}</td>
-        <td>{{ r['describe'] }}</td>
-        <td>
-            <a href="/fun_action/del/{{ r['id'] }}">删除</a>
-            &nbsp;
-            <a href="/fun_action/up/{{ r['id'] }}" data="{{ r['id'] }}">修改</a>
-            &nbsp;
-            <a href="{{ r['url'] }}" target="_blank">查看</a>
-        </td>
-    </tr>
-    {% end %}
-    {% end %}
-    </tbody>
-</table>
+            get_ets_data: function(page) {
+                Util.show_tips("Loading...", 0, "");
+            var url = "./vm_state?act=get_module_source&ets=" + EtsInfo.ets + "&cur_node=" + EtsInfo.cur_node;
+            $.getJSON(url, {}, function (j) {
+                var _html = [];
+		        var result = "";
+                if (j.result) {
+                    result = j.result.replace(/\n/g, "<br />");
+                    result = result.replace(/\t/g, "&nbsp;&nbsp;&nbsp;&nbsp;");
+                }
+                _html.push("<tr>");
+                _html.push("<td>", result, "</td>");
+                _html.push("</tr>");
+                $("#ets_data_zone").html(_html.join(""));
 
-<div class="text-center">
-    <ul class="pagination">
-        <li><a href="/fun/{% if current_mid %}{{ current_mid }}{% end %}?page={{ prev_page }}">&laquo;</a></li>
-        {% for p in range(1, total_page + 1) %}
-        <li {% if p== cur_page %}class="active" {% end %}><a
-                href="/fun/{% if current_mid %}{{ current_mid }}{% end %}?page={{ p }}">{{ p }}</a></li>
-        {% end %}
-        <li><a href="/fun/{% if current_mid %}{{ current_mid }}{% end %}?page={{ next_page }}">&raquo;</a></li>
-    </ul>
-</div>
+                Util.hide_tips();
+            });
+            }
+        };
 
-{% end %}
+        $("#get_ets_data").click(function () {
+            if ($("#util-tips-div").length > 0) {
+                return false;
+            }
+            if (EtsInfo.ets_size < 1) {
+                return false;
+            }
+
+        });
+
+        EtsInfo.get_vm_ets_detail();
+
+    });
 
 
-{% block js_footer %}
-{% if current_mid %}
-{% if rs %}
-Erlple.rmod_arr = ["{{ r['mod_name'] }}"];
-Erlple.mod_arr["{{ r['mod_name'] }}"] = {{ r['mid'] }};
-{% end %}
-{% end %}
-{% end %}
+
+</script>

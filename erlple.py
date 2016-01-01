@@ -50,7 +50,7 @@ class FunHandler(tornado.web.RequestHandler):
             condition = "WHERE mid = %s" % mid
             current_mid = mid
 
-        query_args = util.qs(self.request.uri)
+        query_args = util.parse_qs(self.request.uri)
         if 'page' in query_args.keys():
             cur_page = query_args['page']
         else:

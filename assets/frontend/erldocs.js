@@ -258,7 +258,7 @@ $(window).load(function () {
                 var range = 4;
                 var showitems = (range * 2) + 1;
 
-                if (current > 2 && current + range + 1 > pages && showitems < pages) {
+                if (current > 2 && current - range > 1) {
                     _html.push("<li page='1'>最前</li>");
                 }
                 if (current > 1 && showitems < pages) {
