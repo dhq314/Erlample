@@ -20,10 +20,11 @@ import util
 
 
 class MainHandler(tornado.web.RequestHandler):
-    def get(self, cur_page):
+    def get(self):
         per_page = 20
         total_sql = "SELECT id FROM mod"
-        cur_page, total_page, prev_page, next_page, offset = util.page(cur_page, per_page, total_sql)
+        cur_page, total_num, total_page, prev_page, next_page, offset, range_page, show_items = \
+            util.page(self, per_page, total_sql)
 
         pg = pgsql.Pgsql()
         ms = pg.fetchall("SELECT id, name, describe, html FROM mod LIMIT %d OFFSET %d" % (per_page, offset))
@@ -34,30 +35,31 @@ class MainHandler(tornado.web.RequestHandler):
         template_variables = dict(
             mod_list=mod_list,
             cur_page=cur_page,
+            total_num=total_num,
             total_page=total_page,
             prev_page=prev_page,
-            next_page=next_page
+            next_page=next_page,
+            range_page=range_page,
+            show_items=show_items,
+            url="/mod/"
         )
         self.render("mod_list.html", **template_variables)
 
 
 class FunHandler(tornado.web.RequestHandler):
     def get(self, mid):
+        uri = "/fun/"
         condition = ""
-        template_variables = {}
         current_mid = None
         if mid.isdigit():
             condition = "WHERE mid = %s" % mid
             current_mid = mid
+            uri += mid
 
-        query_args = util.parse_qs(self.request.uri)
-        if 'page' in query_args.keys():
-            cur_page = query_args['page']
-        else:
-            cur_page = "1"
         per_page = 50
         total_sql = "SELECT id FROM funcs %s" % condition
-        cur_page, total_page, prev_page, next_page, offset = util.page(cur_page, per_page, total_sql)
+        cur_page, total_num, total_page, prev_page, next_page, offset, range_page, show_items = \
+            util.page(self, per_page, total_sql)
 
         pg = pgsql.Pgsql()
         fs = pg.fetchall("SELECT id, name, mid, describe FROM funcs %s ORDER BY id DESC LIMIT %d OFFSET %d" % (
@@ -86,12 +88,18 @@ class FunHandler(tornado.web.RequestHandler):
                 i += 1
         else:
             rs = None
-        template_variables['rs'] = rs
-        template_variables['current_mid'] = current_mid
-        template_variables['cur_page'] = cur_page
-        template_variables['total_page'] = total_page
-        template_variables['prev_page'] = prev_page
-        template_variables['next_page'] = next_page
+        template_variables = dict(
+            rs=rs,
+            current_mid=current_mid,
+            cur_page=cur_page,
+            total_num=total_num,
+            total_page=total_page,
+            prev_page=prev_page,
+            next_page=next_page,
+            range_page=range_page,
+            show_items=show_items,
+            url=uri
+        )
         self.render("fun_list.html", **template_variables)
 
 
@@ -274,12 +282,12 @@ if __name__ == "__main__":
     tornado.options.parse_command_line()
     handlers = [
         (r"/mod_action/(.+)/(.*)", ModActionHandler),
-        (r"/mod/(.*)", MainHandler),
-        (r"/mod(.*)", MainHandler),
+        (r"/mod/", MainHandler),
+        (r"/mod", MainHandler),
         (r"/fun_action/(.+)/(.*)", FunActionHandler),
         (r"/fun_action2/(.+)/(.*)/(.*)", FunAction2Handler),
         (r"/fun/(.*)", FunHandler),
-        (r"/(.*)", MainHandler)
+        (r"/", MainHandler)
     ]
     root_path = os.path.dirname(__file__)
     settings = dict(

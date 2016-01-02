@@ -33,7 +33,7 @@ def parse_qs(url):
     return dict([(k, v[0]) for k, v in urlparse.parse_qs(query).items()])
 
 
-def page(cur_page, per_page, total_sql):
+def page(self, per_page, total_sql):
     """
     分页函数
     """
@@ -41,13 +41,19 @@ def page(cur_page, per_page, total_sql):
     total_num = pg.fetch_num(total_sql)
     total_page = ceil2(total_num, per_page)
 
-    cur_page = cur_page.strip()
-    if cur_page.isdigit():
-        cur_page = int(cur_page)
-        if cur_page < 1:
+    query_args = parse_qs(self.request.uri)
+    if 'page' in query_args.keys():
+        cur_page = query_args['page']
+        cur_page = cur_page.strip()
+        if cur_page.isdigit():
+            cur_page = int(cur_page)
+            if cur_page < 1:
+                cur_page = 1
+        else:
             cur_page = 1
     else:
         cur_page = 1
+
     prev_page = cur_page - 1
     if prev_page < 1:
         prev_page = 1
@@ -55,5 +61,6 @@ def page(cur_page, per_page, total_sql):
     if next_page > total_page:
         next_page = total_page
     offset = (cur_page - 1) * per_page
-
-    return cur_page, total_page, prev_page, next_page, offset
+    range_page = 4
+    show_items = (range_page * 2) + 1
+    return cur_page, total_num, total_page, prev_page, next_page, offset, range_page, show_items
